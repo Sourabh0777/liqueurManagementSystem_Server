@@ -22,25 +22,18 @@ abstract class ApiResponse {
     protected statusCode: StatusCode,
     protected status: ResponseStatus,
     protected message: string
-  ) {
-    console.log("abstract class ApiResponse constructor executed");
-  }
+  ) {}
 
   protected prepare<T extends ApiResponse>(
     res: Response,
     response: T,
     headers: { [key: string]: string }
   ): Response {
-    console.log("prepare method of ApiResponse run");
-    console.log("🚀 ~ ApiResponse ~ response:", response);
-    console.log(response);
-
     for (const [key, value] of Object.entries(headers)) res.append(key, value);
     return res.status(this.status).json(ApiResponse.sanitize(response));
   }
 
   public send(res: Response, headers: { [key: string]: string } = {}): Response {
-    console.log("send method of ApiResponse run");
     return this.prepare<ApiResponse>(res, this, headers);
   }
 
@@ -102,12 +95,9 @@ export class FailureMsgResponse extends ApiResponse {
 
 export class SuccessResponse<T> extends ApiResponse {
   constructor(message: string, private data: T) {
-    console.log("class SuccessResponse  created");
     super(StatusCode.SUCCESS, ResponseStatus.SUCCESS, message);
   }
-
   send(res: Response, headers: { [key: string]: string } = {}): Response {
-    console.log("send method of SuccessResponse run");
     return super.prepare<SuccessResponse<T>>(res, this, headers);
   }
 }

@@ -1,13 +1,12 @@
 import { Response } from "express";
 import prisma_client from "../../config/prisma";
 import { SuccessResponse } from "../../core/ApiResponse";
-import { userRegistrationInterface } from "../models/user.models";
+import { adminRegistrationInterface } from "../models/admin.models";
 
-const RegisterUserMethod = async (userRegistrationData: userRegistrationInterface) => {
-  console.log("api run till RegisterUserMethod");
+const RegisterAdminMethod = async (userRegistrationData: adminRegistrationInterface) => {
   const registeredUser = await prisma_client.user.create({ data: { ...userRegistrationData } });
   return new SuccessResponse("Signup Successful", {
     registeredUser: registeredUser,
   });
 };
-export { RegisterUserMethod };
+export { RegisterAdminMethod };
