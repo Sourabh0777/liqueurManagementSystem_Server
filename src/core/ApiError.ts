@@ -24,13 +24,10 @@ export enum ErrorType {
 
 export abstract class ApiError extends Error {
   constructor(public type: ErrorType, public message: string = "error") {
-    console.log("worked");
     super(type);
   }
 
   public static handle(err: ApiError, res: Response): Response {
-    console.log("handle working");
-
     switch (err.type) {
       case ErrorType.BAD_TOKEN:
       case ErrorType.TOKEN_EXPIRED:

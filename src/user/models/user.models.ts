@@ -3,4 +3,3 @@ export interface userRegistrationInterface {
   otp?: number;
   otpExpiry?: Date;
 }
-
