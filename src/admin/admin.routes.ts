@@ -1,9 +1,10 @@
 import express, { Request, Response } from "express";
 import * as adminAuthController from "./controller/adminAuthController";
-const adminRouter = express();
+const adminRoutes = express();
 
 // Auth related API's
-adminRouter.post("/registerAdmin", adminAuthController.adminRegisterController);
+adminRoutes.post("/registerAdmin", adminAuthController.adminRegisterController);
+adminRoutes.post("/loginAdmin", adminAuthController.adminLoginController);
 
 //Export
-export default adminRouter;
+export default adminRoutes;

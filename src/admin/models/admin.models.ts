@@ -1,3 +1,7 @@
 export interface adminRegistrationInterface {
-  phoneNumber
+  firstName: string;
+  lastName: string;
+  emailAddress: string;
+  username: string;
+  password: string;
 }
