@@ -1,5 +1,6 @@
 export interface userRegistrationInterface {
-  name: string;
-  email: string;
-  password: string;
+  phoneNumber: number;
+  otp?: number;
+  otpExpiry?: Date;
 }
+

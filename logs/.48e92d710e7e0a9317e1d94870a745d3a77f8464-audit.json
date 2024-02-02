@@ -1,0 +1,15 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 14
+    },
+    "auditLog": "F:\\Office\\liqueurManagementSystem\\logs\\.48e92d710e7e0a9317e1d94870a745d3a77f8464-audit.json",
+    "files": [
+        {
+            "date": 1706788376691,
+            "name": "F:\\Office\\liqueurManagementSystem\\logs\\2024-02-01.log",
+            "hash": "89a735061a7562f582429279593fce24d71406104ce87359f13365f3e1daee77"
+        }
+    ],
+    "hashType": "sha256"
+}

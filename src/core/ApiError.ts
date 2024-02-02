@@ -24,10 +24,13 @@ export enum ErrorType {
 
 export abstract class ApiError extends Error {
   constructor(public type: ErrorType, public message: string = "error") {
+    console.log("worked");
     super(type);
   }
 
   public static handle(err: ApiError, res: Response): Response {
+    console.log("handle working");
+
     switch (err.type) {
       case ErrorType.BAD_TOKEN:
       case ErrorType.TOKEN_EXPIRED:
@@ -47,7 +50,6 @@ export abstract class ApiError extends Error {
         return new ForbiddenResponse(err.message).send(res);
       default: {
         let message = err.message;
-        // Do not send failure message in production as it may send sensitive data
         if (environment === "production") message = "Something wrong happened.";
         return new InternalErrorResponse(message).send(res);
       }
