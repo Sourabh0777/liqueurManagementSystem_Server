@@ -44,3 +44,4 @@ const VerifyOtpMethod = async (userVerifyOtpData: userRegistrationInterface) => 
   }
 };
 export { RegisterUserMethod, VerifyOtpMethod };
+// safsf
