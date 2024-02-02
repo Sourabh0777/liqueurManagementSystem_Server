@@ -1,0 +1,43 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define the Gender enum
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+model user {
+  id            Int       @id @default(autoincrement())
+  firstName     String?
+  lastName      String?
+  emailAddress  String?   @unique
+  countryCode   String?   @default("+91")
+  phoneNumber   BigInt    @unique
+  addressLine1  String?
+  addressLine2  String?
+  city          String?
+  state         String?
+  country       String?
+  zipCode       String?
+  gender        Gender?
+  dateOfBirth   DateTime?
+  userName      String?   @unique
+  userImage     String?
+  isOTPVerified Boolean   @default(false)
+  otp           Int?
+  otpExpiry     DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt()
+  enabled       Boolean   @default(true) // Assuming the default is enabled
+
+  //Required at first are  phoneNumber
+  @@map("users")
+}
