@@ -19,4 +19,17 @@ const userVerifyOtpController = async (req: Request, res: Response) => {
   return userVerifyOtpResponse.send(res);
 };
 
-export { userRegisterController, userVerifyOtpController };
+const updateUserDataController = async (req:Request,res:Response, next:NextFunction)=>{
+  try {
+  const userId=parseInt(req.params.id);
+  const newUserData=req.body;
+
+  const userDataUpdateResponse= await userAuthService.userDataUpdateService(userId,newUserData);
+  return userDataUpdateResponse.send(res);
+  } catch (error) {
+    console.log("userDataUpdate error:", error);
+    next(error);
+  }
+}
+
+export { userRegisterController, userVerifyOtpController, updateUserDataController };

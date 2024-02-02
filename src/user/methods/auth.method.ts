@@ -1,6 +1,6 @@
 import prisma_client from "../../config/prisma";
 import { SuccessResponse } from "../../core/ApiResponse";
-import { userRegistrationInterface } from "../models/user.models";
+import { userRegistrationInterface,userDataInterface } from "../models/user.models";
 import { BadRequestError } from "../../core/ApiError";
 import generateOtp from "../middlewares/generateOtp";
 
@@ -43,4 +43,25 @@ const VerifyOtpMethod = async (userVerifyOtpData: userRegistrationInterface) => 
     throw error;
   }
 };
-export { RegisterUserMethod, VerifyOtpMethod };
+
+const UpdateUserMethod = async (Id:number,data:userDataInterface)=>{
+  try {
+    const filteredData = Object.fromEntries(
+      Object.entries(data).filter(([_, value]) => value !== undefined && value !== null)
+    );
+    const updateUser= await prisma_client.user.update({
+      where:{
+        id:Id,
+      },
+        data:filteredData
+      })
+    return new SuccessResponse("Data Changed Successfully",updateUser)
+  } catch (error) {
+    console.error("Error during Updating User Data",error);
+    throw error;
+  }
+}
+
+
+
+export { RegisterUserMethod, VerifyOtpMethod , UpdateUserMethod};
