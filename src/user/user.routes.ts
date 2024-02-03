@@ -1,7 +1,8 @@
-import express, { Request, Response } from "express";
-import * as userAuthController from "./controller/userAuthController";
+import express, { Request, Response } from 'express';
+import * as userAuthController from './controller/userAuthController';
 const userRoutes = express();
-userRoutes.use("/registerUser", userAuthController.userRegisterController);
-userRoutes.use("/verifyUserOTP", userAuthController.userVerifyOtpController);
+userRoutes.post('/registerUser', userAuthController.userRegisterController);
+userRoutes.post('/verifyUserOTP', userAuthController.userVerifyOtpController);
+userRoutes.post('/login', userAuthController.userLoginController);
 
 export default userRoutes;
