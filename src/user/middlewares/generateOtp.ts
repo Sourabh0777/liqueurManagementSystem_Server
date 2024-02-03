@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 import axios from 'axios';
 import { FAST2SMS_API_KEY } from '../../secrets';
 
 const generateOtp = async (phoneNumber: number) => {
   // const otp = Math.floor(1000 + Math.random() * 9000);
   const otp = 3245;
+=======
+import axios from "axios";
+import { FAST2SMS_API_KEY } from "../../secrets";
+
+const generateOtp = async (phoneNumber: number) => {
+  // const otp = Math.floor(1000 + Math.random() * 9000);
+  const otp = 1234;
+>>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
   const otpExpiry = new Date(Date.now() + 5 * 60 * 1000);
   //   const response = await axios.get("https://www.fast2sms.com/dev/bulk", {
   //     params: {

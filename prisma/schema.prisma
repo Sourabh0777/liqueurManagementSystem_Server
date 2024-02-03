@@ -41,6 +41,7 @@ model user {
   //Required at first are  phoneNumber
   @@map("users")
 }
+<<<<<<< HEAD
 
 model Admin {
   id            Int       @id @default(autoincrement())
@@ -68,3 +69,5 @@ model Admin {
 
   @@map("admins")
 }
+=======
+>>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187

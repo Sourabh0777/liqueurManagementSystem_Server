@@ -5,4 +5,7 @@ export const PORT = process.env.PORT;
 export const environment = process.env.NODE_ENV;
 export const FAST2SMS_API_KEY = process.env.FAST2SMS_API_KEY;
 export const logDirectory = process.env.LOG_DIR;
+<<<<<<< HEAD
 export const JWT_SECRET_KEY:string = process.env.JWT_SECRET_KEY ||  'secret';
+=======
+>>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
