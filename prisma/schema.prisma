@@ -20,7 +20,7 @@ model user {
   lastName      String?
   emailAddress  String?   @unique
   countryCode   String?   @default("+91")
-  phoneNumber   BigInt    @unique
+  phoneNumber   String    @unique
   addressLine1  String?
   addressLine2  String?
   city          String?
