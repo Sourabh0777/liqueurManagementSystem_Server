@@ -59,6 +59,7 @@ const userLoginController = async (
   }
 };
 
+
 const updateUserDataController = async (req:Request,res:Response, next:NextFunction)=>{
   try {
   const userDataUpdateResponse= await userAuthService.userDataUpdateService(req.body);

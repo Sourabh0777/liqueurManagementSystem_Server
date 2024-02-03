@@ -20,10 +20,12 @@ const userVerifyOtpService = async (
   return registrationResponse;
 };
 
+
 const userDataUpdateService = async (newUserData:userDataInterface)=>{
   const dataUpdateResponse= await authMethods.UpdateUserMethod(newUserData);
   return dataUpdateResponse;
 }
+
 const userLoginService = async (userLoginData: userRegistrationInterface) => {
   const loginResponse = await authMethods.LoginMethod(userLoginData);
   return loginResponse;

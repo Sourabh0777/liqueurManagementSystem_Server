@@ -4,6 +4,7 @@ import { userRegistrationInterface,userDataInterface } from "../models/user.mode
 import { BadRequestError, NotFoundError } from "../../core/ApiError";
 import generateOtp from "../middlewares/generateOtp";
 
+
 const RegisterUserMethod = async (
   userRegistrationData: userRegistrationInterface,
 ) => {
@@ -72,6 +73,7 @@ const LoginMethod = async (userLoginData: userRegistrationInterface) => {
   });
 };
 
+
 const UpdateUserMethod = async (newUserData:userDataInterface)=>{
 
     const {Id,...data}=newUserData;
@@ -116,3 +118,4 @@ return new SuccessResponse("User Deleted Successfully",deleteUser);
 }
 
 export { RegisterUserMethod, VerifyOtpMethod, LoginMethod, UpdateUserMethod, getUserMethod, deleteUserMethod} ;
+
