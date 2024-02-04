@@ -59,4 +59,23 @@ const userLoginController = async (
   }
 };
 
-export { userRegisterController, userVerifyOtpController, userLoginController };
+const CurrentlyLoggedInUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    console.log('working');
+    const user = req.body.decodeToken;
+    console.log(user);
+    return res.send(user);
+  } catch (error) {
+    return next(error);
+  }
+};
+export {
+  userRegisterController,
+  userVerifyOtpController,
+  userLoginController,
+  CurrentlyLoggedInUserController,
+};
