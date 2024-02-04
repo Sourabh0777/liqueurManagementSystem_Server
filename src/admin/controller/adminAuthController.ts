@@ -56,7 +56,7 @@ const adminLoginController = async (
 
     res
       .cookie('jwtToken', token, { httpOnly: true })
-      .json({ message: 'Login successful', admin });
+      .json({ message: 'Login successful' });
   } catch (error) {
     console.log('🚀 ~ adminLoginController ~ error:', error);
     next(error);

@@ -27,7 +27,7 @@ const RegisterAdminMethod = async (
     },
   });
   return new SuccessResponse('Signup Successful', {
-    registeredAdmin: registeredAdmin,
+    username: registeredAdmin.username,
   });
 };
 export { RegisterAdminMethod };
