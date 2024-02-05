@@ -28,6 +28,7 @@ const RegisterAdminMethod = async (
     },
   });
   return new SuccessResponse('Signup Successful', {
+<<<<<<< HEAD
     registeredAdmin: registeredAdmin,
 =======
 import { Response } from "express";
@@ -40,6 +41,9 @@ const RegisterAdminMethod = async (userRegistrationData: adminRegistrationInterf
   return new SuccessResponse("Signup Successful", {
     registeredUser: registeredUser,
 >>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
+=======
+    username: registeredAdmin.username,
+>>>>>>> b77e216d91bd6c1328849815beb9469289ee93a3
   });
 };
 export { RegisterAdminMethod };

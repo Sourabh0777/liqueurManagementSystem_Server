@@ -29,16 +29,19 @@ const userVerifyOtpController = async (
       otp,
       phoneNumber,
     });
-    return res
-      .cookie(
-        'user_access_token',
-        generateAuthToken(phoneNumber, otp),
-        cookieOptions,
-      )
-      .status(201)
-      .json({
-        success: 'OTP Confirmed',
-      });
+    if (userVerifyOtpResponse && userVerifyOtpResponse.id) {
+      const { id } = await userVerifyOtpResponse;
+      return res
+        .cookie(
+          'user_access_token',
+          generateAuthToken(phoneNumber, id, otp),
+          cookieOptions,
+        )
+        .status(201)
+        .json({
+          success: 'OTP Confirmed',
+        });
+    }
   } catch (error) {
     console.log('error');
     return next(error);
@@ -60,6 +63,7 @@ const userLoginController = async (
   }
 };
 
+<<<<<<< HEAD
 export { userRegisterController, userVerifyOtpController, userLoginController };
 =======
 import { Request, Response, NextFunction } from "express";
@@ -85,3 +89,56 @@ const userVerifyOtpController = async (req: Request, res: Response) => {
 
 export { userRegisterController, userVerifyOtpController };
 >>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
+=======
+const updateUserDataController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const userDataUpdateResponse = await userAuthService.userDataUpdateService(
+      req.body,
+    );
+    return userDataUpdateResponse.send(res);
+  } catch (error) {
+    console.log('userDataUpdate error:', error);
+    next(error);
+  }
+};
+
+const getUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const getUserResponse = await userAuthService.getUserService(req.body);
+    return getUserResponse.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deleteUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const deleteUserResponse = await userAuthService.deleteUserService(
+      req.body,
+    );
+    return deleteUserResponse.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+export {
+  userRegisterController,
+  userVerifyOtpController,
+  userLoginController,
+  updateUserDataController,
+  getUserController,
+  deleteUserController,
+};
+>>>>>>> b77e216d91bd6c1328849815beb9469289ee93a3

@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { FAST2SMS_API_KEY } from '../../secrets';
 
-const generateOtp = async (phoneNumber: number) => {
+const generateOtp = async (phoneNumber: string) => {
   // const otp = Math.floor(1000 + Math.random() * 9000);
   const otp = 3245;
 =======
