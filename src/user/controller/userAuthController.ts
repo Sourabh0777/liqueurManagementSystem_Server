@@ -96,7 +96,6 @@ const updateUserDataController = async (
   next: NextFunction,
 ) => {
   try {
-    console.log(req.body.decodeToken);
     const userDataUpdateResponse = await userAuthService.userDataUpdateService(
       req.body,
     );
