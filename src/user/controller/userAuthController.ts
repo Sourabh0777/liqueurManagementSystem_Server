@@ -59,16 +59,45 @@ const userLoginController = async (
   }
 };
 
-const CurrentlyLoggedInUserController = async (
+const updateUserDataController = async (
   req: Request,
   res: Response,
   next: NextFunction,
 ) => {
   try {
-    console.log('working');
-    const user = req.body.decodeToken;
-    console.log(user);
-    return res.send(user);
+    const userDataUpdateResponse = await userAuthService.userDataUpdateService(
+      req.body,
+    );
+    return userDataUpdateResponse.send(res);
+  } catch (error) {
+    console.log('userDataUpdate error:', error);
+    next(error);
+  }
+};
+
+const getUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const getUserResponse = await userAuthService.getUserService(req.body);
+    return getUserResponse.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const deleteUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const deleteUserResponse = await userAuthService.deleteUserService(
+      req.body,
+    );
+    return deleteUserResponse.send(res);
   } catch (error) {
     return next(error);
   }
@@ -77,5 +106,7 @@ export {
   userRegisterController,
   userVerifyOtpController,
   userLoginController,
-  CurrentlyLoggedInUserController,
+  updateUserDataController,
+  getUserController,
+  deleteUserController,
 };
