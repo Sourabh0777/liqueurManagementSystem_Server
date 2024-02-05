@@ -28,17 +28,19 @@ const userVerifyOtpController = async (
       otp,
       phoneNumber,
     });
-    const { id } = await userVerifyOtpResponse;
-    return res
-      .cookie(
-        'user_access_token',
-        generateAuthToken(phoneNumber, id, otp),
-        cookieOptions,
-      )
-      .status(201)
-      .json({
-        success: 'OTP Confirmed',
-      });
+    if (userVerifyOtpResponse && userVerifyOtpResponse.id) {
+      const { id } = await userVerifyOtpResponse;
+      return res
+        .cookie(
+          'user_access_token',
+          generateAuthToken(phoneNumber, id, otp),
+          cookieOptions,
+        )
+        .status(201)
+        .json({
+          success: 'OTP Confirmed',
+        });
+    }
   } catch (error) {
     console.log('error');
     return next(error);
