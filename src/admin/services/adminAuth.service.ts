@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import * as adminAuthMethods from '../methods/adminAuth.method';
 import { adminRegistrationInterface } from '../models/admin.models';
 import prisma_client from '../../config/prisma';
@@ -26,34 +25,3 @@ const adminLoginService = async (username: string, password: string) => {
 };
 
 export { adminRegisterService, adminLoginService };
-=======
-// adminAuth.service.ts
-import prisma_client from "../../config/prisma";
-import { SuccessResponse } from "../../core/ApiResponse";
-import { adminRegistrationInterface } from "../models/admin.models";
-import { RegisterAdminMethod } from "../methods/adminAuth.method";
-
-const adminAuthService = async (userRegistrationData: adminRegistrationInterface) => {
-  const registrationResponse = await RegisterAdminMethod(userRegistrationData);
-  return registrationResponse;
-};
-
-
-const getAdminData = async (userId: string) => {
-  const adminData = await prisma_client.user.findUnique({
-    where: {
-      id: userId,
-    },
-  });
-
-  if (!adminData) {
-    throw new Error("Admin data not found");
-  }
-
-  return new SuccessResponse("Admin data fetched successfully", {
-    adminData: adminData,
-  });
-};
-
-export { adminAuthService, getAdminData };
->>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187

@@ -30,11 +30,11 @@ const userVerifyOtpController = async (
       phoneNumber,
     });
     if (userVerifyOtpResponse && userVerifyOtpResponse.id) {
-      const { id } = await userVerifyOtpResponse;
+      const { id } = userVerifyOtpResponse;
       return res
         .cookie(
           'user_access_token',
-          generateAuthToken(phoneNumber, id, otp),
+          generateAuthToken(phoneNumber, id),
           cookieOptions,
         )
         .status(201)
@@ -96,6 +96,7 @@ const updateUserDataController = async (
   next: NextFunction,
 ) => {
   try {
+    console.log(req.body.decodeToken);
     const userDataUpdateResponse = await userAuthService.userDataUpdateService(
       req.body,
     );
