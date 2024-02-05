@@ -28,10 +28,11 @@ const userVerifyOtpController = async (
       otp,
       phoneNumber,
     });
+    const { id } = await userVerifyOtpResponse;
     return res
       .cookie(
         'user_access_token',
-        generateAuthToken(phoneNumber, otp),
+        generateAuthToken(phoneNumber, id, otp),
         cookieOptions,
       )
       .status(201)
