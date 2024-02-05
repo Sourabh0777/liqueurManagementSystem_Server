@@ -1,10 +1,7 @@
-import { Gender } from ".prisma/client";
-
 export interface vendorDetails{
-    id: number;
+    Id: number;
     firstName: string;
     lastName: string;
-    gender: Gender;
     dateOfBirth: Date;
     phoneNumber: string;
     addressLine1: string;
@@ -13,7 +10,7 @@ export interface vendorDetails{
     state: string;
     country: string;
     countryCode: string;
-    pinCode: string;
+    zipcode: string;
     createdAt: Date;
     upadatedAt: Date;
 }
