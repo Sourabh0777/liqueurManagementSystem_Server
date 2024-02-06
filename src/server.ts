@@ -7,14 +7,15 @@ import {
   InternalError,
   NotFoundError,
 } from './core/ApiError';
+import cookieParser from 'cookie-parser';
 
 console.log(new Date());
 
 const app: Express = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.use('/api', rootRouter);
-
 // app.use((req: Request, res: Response, next) => next(new NotFoundError()));
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   console.log('🚀 ~ app.use ~ err:', err);

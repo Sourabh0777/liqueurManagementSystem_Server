@@ -87,5 +87,26 @@ const deleteUserController = async (req:Request,res:Response,next:NextFunction)=
     return next(error);
   }
 }
-export { userRegisterController, userVerifyOtpController, userLoginController, updateUserDataController, getUserController,deleteUserController};
 
+const CurrentlyLoggedInUserController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    console.log('working');
+    const user = req.body.decodeToken;
+    console.log(user);
+    return res.send(user);
+  } catch (error) {
+    return next(error);
+  }
+};
+export {
+  userRegisterController,
+  userVerifyOtpController,
+  userLoginController,
+  CurrentlyLoggedInUserController,updateUserDataController,
+   getUserController,
+   deleteUserController
+};
