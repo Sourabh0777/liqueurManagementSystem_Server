@@ -10,6 +10,6 @@ const rootRouter = express();
 //Routes
 rootRouter.use('/user', userRoutes);
 rootRouter.use('/admin', adminRoutes);
-rootRouter.use('/vendor',vendorRoutes);
+rootRouter.use('/vendor', vendorRoutes);
 
 export default rootRouter;
