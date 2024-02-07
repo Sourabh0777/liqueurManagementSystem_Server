@@ -27,30 +27,30 @@ enum paymentStatus {
 }
 
 model user {
-  id            Int         @id @default(autoincrement())
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id            Int          @id @default(autoincrement())
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
   addressLine1  String?
   addressLine2  String?
   city          String?
   country       String?
-  countryCode   String?     @default("+91")
+  countryCode   String?      @default("+91")
   dateOfBirth   DateTime?
-  emailAddress  String?     @unique
-  enabled       Boolean     @default(true)
+  emailAddress  String?      @unique
+  enabled       Boolean      @default(true)
   firstName     String?
   gender        Gender?
-  isOTPVerified Boolean     @default(false)
+  isOTPVerified Boolean      @default(false)
   lastName      String?
   state         String?
   userImage     String?
   otp           Int?
   otpExpiry     DateTime?
-  userName      String?     @unique
+  userName      String?      @unique
   zipCode       String?
-  phoneNumber   String      @unique
+  phoneNumber   String       @unique
   //Foregin Key 
-  cart          cartDetails
+  cart          cartDetails?
 
   @@map("users")
 }
@@ -171,7 +171,7 @@ model inventory {
   enabled           Boolean  @default(true)
 
   // Foreign key
-  productDetails productDetail @relation(fields: [productDetailsID, vendorBusinessID], references: [id])
+  productDetails productDetail @relation(fields: [productDetailsID], references: [id])
   // vendorDetails    vendorBusiness @relation(fields: [vendorBusinessID],references:[id])
   cartDetails    cartDetails?  @relation(fields: [cartDetailsId], references: [id])
   cartDetailsId  Int?
@@ -179,7 +179,7 @@ model inventory {
 
 model cartDetails {
   id               Int         @id @default(autoincrement())
-  userDetailsID    String
+  userDetailsID    Int         @unique
   inventoryId      String
   quantity         Int[]
   createdAt        DateTime    @default(now())
@@ -187,7 +187,7 @@ model cartDetails {
   enabled          Boolean     @default(true)
   // Foreign key
   userdetails      user        @relation(fields: [userDetailsID], references: [id])
-  inventoryDetails inventory[] @relation(fields: [inventoryId], references: [id])
+  inventoryDetails inventory[]
 }
 
 // model orderDetail{
