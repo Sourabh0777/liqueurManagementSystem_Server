@@ -1,9 +1,8 @@
-import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-
-const secretKey = 'your_secret_key_here'; // Replace with your secret key
-
-const generateToken = (data: any) => {
-  return jwt.sign(data, secretKey, { expiresIn: '1h' }); // Adjust expiry time as per your requirements
+import { JWT_SECRET_KEY } from '../../secrets';
+const generateAuthToken = (id: number, username: string, roleType: string) => {
+  return jwt.sign({ username, id, roleType }, JWT_SECRET_KEY, {
+    expiresIn: '1h',
+  });
 };
-export { generateToken };
+export { generateAuthToken };

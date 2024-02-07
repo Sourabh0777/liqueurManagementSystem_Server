@@ -35,10 +35,14 @@ const verifyIsAdmin = async (
   res: Response,
   next: NextFunction,
 ) => {
-  if (req.body.decodeToken && req.body.decodeToken.isAdmin) {
-    next();
-  } else {
-    throw new ForbiddenError('Token is required for authentication.');
+  try {
+    if (req.body.decodeToken && req.body.decodeToken.roleType == 'admin') {
+      next();
+    } else {
+      throw new ForbiddenError('Token is required for authentication.');
+    }
+  } catch (err) {
+    return next(err);
   }
 };
 export { verifyIsLoggedIn, verifyIsAdmin };

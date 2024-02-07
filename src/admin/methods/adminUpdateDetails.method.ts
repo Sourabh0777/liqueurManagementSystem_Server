@@ -28,10 +28,10 @@ const updateAdminPasswordMethod = async (
 
 const updateAdminDetailsMethod = async (updatedAdmin: adminDetails) => {
   try {
-    const { id, ...data } = updatedAdmin;
+    const { decodeToken, ...data } = updatedAdmin;
 
     const admin = await prisma_client.admin.update({
-      where: { id },
+      where: { id: decodeToken.id },
       data,
     });
 
