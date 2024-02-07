@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import bcrypt from 'bcrypt';
 const salt = bcrypt.genSaltSync(10);
 const hashPassword = (password: string) => bcrypt.hashSync(password, salt);
@@ -9,3 +10,9 @@ export { hashPassword, comparePassword };
 //   API_KEY = 'x-api-key',
 //   AUTHORIZATION = 'authorization',
 // }
+=======
+export const enum Header {
+  API_KEY = 'x-api-key',
+  AUTHORIZATION = 'authorization',
+}
+>>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187

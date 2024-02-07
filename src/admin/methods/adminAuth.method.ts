@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Response } from 'express';
 import prisma_client from '../../config/prisma';
 import { SuccessResponse } from '../../core/ApiResponse';
@@ -28,7 +29,22 @@ const RegisterAdminMethod = async (
     },
   });
   return new SuccessResponse('Signup Successful', {
+<<<<<<< HEAD
+    registeredAdmin: registeredAdmin,
+=======
+import { Response } from "express";
+import prisma_client from "../../config/prisma";
+import { SuccessResponse } from "../../core/ApiResponse";
+import { adminRegistrationInterface } from "../models/admin.models";
+
+const RegisterAdminMethod = async (userRegistrationData: adminRegistrationInterface) => {
+  const registeredUser = await prisma_client.user.create({ data: { ...userRegistrationData } });
+  return new SuccessResponse("Signup Successful", {
+    registeredUser: registeredUser,
+>>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
+=======
     username: registeredAdmin.username,
+>>>>>>> b77e216d91bd6c1328849815beb9469289ee93a3
   });
 };
 export { RegisterAdminMethod };

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { NextFunction, Request, Response } from 'express';
 import * as adminAuthService from '../services/adminAuth.service';
 import { AuthFailureError } from '../../core/ApiError';
@@ -66,3 +67,16 @@ const adminLoginController = async (
   }
 };
 export { adminRegisterController, adminLoginController };
+=======
+import { Request, Response } from "express";
+import * as adminAuthService from "../services/adminAuth.service";
+const adminRegisterController = async (req: Request, res: Response) => {
+  const { phoneNumber } = req.body;
+  const userRegistrationResponse = await adminAuthService.adminAuthService({
+    phoneNumber
+  });
+  return userRegistrationResponse.send(res);
+};
+
+export { adminRegisterController };
+>>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187

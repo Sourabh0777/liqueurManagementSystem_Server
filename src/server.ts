@@ -1,3 +1,4 @@
+
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { PORT, environment } from './secrets';
 import rootRouter from './root.routes';
