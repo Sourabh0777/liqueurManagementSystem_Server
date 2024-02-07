@@ -1,18 +1,11 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
 import prisma_client from '../../config/prisma';
 import { SuccessResponse } from '../../core/ApiResponse';
-import { userRegistrationInterface } from '../models/user.models';
-import { BadRequestError } from '../../core/ApiError';
+import {
+  userRegistrationInterface,
+  userDataInterface,
+} from '../models/user.models';
+import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import generateOtp from '../middlewares/generateOtp';
-=======
-import prisma_client from "../../config/prisma";
-import { SuccessResponse } from "../../core/ApiResponse";
-import { userRegistrationInterface,userDataInterface } from "../models/user.models";
-import { BadRequestError, NotFoundError } from "../../core/ApiError";
-import generateOtp from "../middlewares/generateOtp";
-
->>>>>>> b77e216d91bd6c1328849815beb9469289ee93a3
 
 const RegisterUserMethod = async (
   userRegistrationData: userRegistrationInterface,
@@ -105,78 +98,49 @@ const LoginMethod = async (userLoginData: userRegistrationInterface) => {
   });
 };
 
-<<<<<<< HEAD
-export { RegisterUserMethod, VerifyOtpMethod, LoginMethod };
-=======
-const VerifyOtpMethod = async (userVerifyOtpData: userRegistrationInterface) => {
-  try {
-    const user = await prisma_client.user.findFirst({
-      where: {
-        phoneNumber: userVerifyOtpData.phoneNumber,
-        otp: userVerifyOtpData.otp,
-      },
-    });
-    if (!user || !user.otpExpiry || new Date(user.otpExpiry) < new Date()) {
-      throw new BadRequestError("Invalid OTP");
-    }
-    await prisma_client.user.update({
-      where: { id: user.id },
-      data: { isOTPVerified: true },
-    });
-    return new SuccessResponse("OTP verified successfully", { message: "working" });
-  } catch (error) {
-    console.error("Error during OTP verification:", error);
-    throw error;
-  }
+const UpdateUserMethod = async (newUserData: userDataInterface) => {
+  const { decodeToken, ...data } = newUserData;
+  const updateUser = await prisma_client.user.update({
+    where: {
+      id: decodeToken.id,
+    },
+    data: data,
+  });
+
+  return new SuccessResponse('Data Changed Successfully', updateUser);
 };
-export { RegisterUserMethod, VerifyOtpMethod };
-// safsf
->>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
-=======
 
-const UpdateUserMethod = async (newUserData:userDataInterface)=>{
-
-    const {Id,...data}=newUserData;
-    const updateUser= await prisma_client.user.update({
-      where:{
-        id:Id,
-      },
-        data:data
-      })
- 
-    return new SuccessResponse("Data Changed Successfully",updateUser)
-  
-}
-
-const getUserMethod = async (userData:userDataInterface)=>{
-
-  const {Id}=userData;
+const getUserMethod = async (userData: userDataInterface) => {
+  const { decodeToken, ...data } = userData;
   const getUser = await prisma_client.user.findUnique({
-    where:{
-      id:Id,
-    }
-  })
-  if(!getUser){
-    throw new NotFoundError("User not Found");
+    where: {
+      id: decodeToken.id,
+    },
+  });
+  if (!getUser) {
+    throw new NotFoundError('User not Found');
   }
-  return new SuccessResponse("Fetched User Details",getUser);
-}
+  return new SuccessResponse('Fetched User Details', getUser);
+};
 
-const deleteUserMethod = async (userData:userDataInterface)=>{
-
-  const{Id}=userData;
-  const deleteUser= await prisma_client.user.delete({
-    where:{
-      id:Id,
+const deleteUserMethod = async (userData: userDataInterface) => {
+  const { decodeToken, ...data } = userData;
+  const deleteUser = await prisma_client.user.delete({
+    where: {
+      id: decodeToken.id,
+    },
+  });
+  if (!deleteUser) {
+    throw new NotFoundError('User not Found');
   }
-})
-if(!deleteUser){
-  throw new NotFoundError("User not Found");
-}
-return new SuccessResponse("User Deleted Successfully",deleteUser);
+  return new SuccessResponse('User Deleted Successfully', deleteUser);
+};
 
-}
-
-export { RegisterUserMethod, VerifyOtpMethod, LoginMethod, UpdateUserMethod, getUserMethod, deleteUserMethod} ;
-
->>>>>>> b77e216d91bd6c1328849815beb9469289ee93a3
+export {
+  RegisterUserMethod,
+  VerifyOtpMethod,
+  LoginMethod,
+  UpdateUserMethod,
+  getUserMethod,
+  deleteUserMethod,
+};
