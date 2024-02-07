@@ -9,7 +9,7 @@ const addCategoryController = async (
   try {
     const { categoryName, categoryDetails } = req.body;
     if (!categoryName || !categoryDetails) {
-      throw new BadRequestError('Input all fields.');
+      throw new BadRequestError('Require input all fields.');
     }
     const categoryData = await adminProductService.addCategoryService({
       categoryName,
@@ -29,7 +29,7 @@ const addSubCategoryController = async (
   try {
     const { categoryDetailsID, subCategoryName, subCategoryDetails } = req.body;
     if (!categoryDetailsID || !subCategoryName || !subCategoryDetails) {
-      throw new BadRequestError('Input all fields.');
+      throw new BadRequestError('Require input all fields.');
     }
     const subCategoryData = await adminProductService.addSubCategoryService({
       categoryDetailsID,
@@ -58,7 +58,7 @@ const addProductsController = async (
       enabled,
     } = req.body;
     if (!subCategoryDetailsID || !productName || !measureQuantity || !ABV) {
-      throw new BadRequestError('Input all fields.');
+      throw new BadRequestError('Require input all fields.');
     }
     const createdProductData = await adminProductService.addProductService({
       subCategoryDetailsID,
