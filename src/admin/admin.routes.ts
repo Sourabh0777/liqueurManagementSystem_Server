@@ -28,6 +28,10 @@ adminRoutes.delete('/deleteAdmin', adminDeleteController.deleteAdminController);
 adminRoutes.post('/registerUser', userAuthController.userRegisterController);
 adminRoutes.post('/verifyUser', userAuthController.userVerifyOtpController);
 adminRoutes.post('/addCategory', adminProductController.addCategoryController);
+adminRoutes.post(
+  '/addSubCategory',
+  adminProductController.addSubCategoryController,
+);
 
 //Export
 export default adminRoutes;

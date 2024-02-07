@@ -1,5 +1,8 @@
 import prisma_client from '../../config/prisma';
-import { categoryInterface } from '../models/admin.models';
+import {
+  categoryInterface,
+  subCategoryInterface,
+} from '../models/admin.models';
 import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import { SuccessResponse } from '../../core/ApiResponse';
 
@@ -20,4 +23,23 @@ const addCategoryMethod = async (productCategoryDetails: categoryInterface) => {
   });
 };
 
-export { addCategoryMethod };
+const addSubCategoryMethod = async (
+  productSubCategoryDetails: subCategoryInterface,
+) => {
+  const existingSubCategory = await prisma_client.subCategoryDetail.findFirst({
+    where: { subCategoryName: productSubCategoryDetails.subCategoryName },
+  });
+
+  if (existingSubCategory) {
+    throw new BadRequestError('Category already registered.');
+  }
+  const addedSubCategory = await prisma_client.subCategoryDetail.create({
+    data: { ...productSubCategoryDetails },
+  });
+
+  return new SuccessResponse('Sub-Category Added', {
+    subCategoryName: addedSubCategory,
+  });
+};
+
+export { addCategoryMethod, addSubCategoryMethod };
