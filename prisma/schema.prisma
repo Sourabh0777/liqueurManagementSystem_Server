@@ -117,7 +117,7 @@ model categoryDetail {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   enabled           Boolean             @default(true)
-  subCategories     subCategoryDetail[]
+  subCategories     subCategoryDetail[] //one-to-many relationship
 
   @@map("categories")
 }
@@ -131,8 +131,9 @@ model subCategoryDetail {
   createdAt            DateTime        @default(now())
   updatedAt            DateTime        @updatedAt
   enabled              Boolean         @default(true)
-  category             categoryDetail  @relation(fields: [categoryDetailsID], references: [id])
   products             productDetail[]
+  // Define the relationship with categoryDetail
+  category             categoryDetail  @relation(fields: [categoryDetailsID], references: [id])
 
   @@map("subCategories")
 }
