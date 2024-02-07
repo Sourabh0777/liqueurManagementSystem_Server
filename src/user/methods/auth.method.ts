@@ -1,23 +1,18 @@
+import { userDataInterface } from './../models/user.models';
 import prisma_client from '../../config/prisma';
 import { SuccessResponse } from '../../core/ApiResponse';
-import {
-  userRegistrationInterface,
-  userDataInterface,
-} from '../models/user.models';
+import { userRegistrationInterface } from '../models/user.models';
 import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import generateOtp from '../middlewares/generateOtp';
-
 const RegisterUserMethod = async (
   userRegistrationData: userRegistrationInterface,
 ) => {
   const existingUser = await prisma_client.user.findFirst({
     where: { phoneNumber: userRegistrationData.phoneNumber },
   });
-
   if (existingUser) {
     throw new BadRequestError('User already registered.');
   }
-
   const { otp, otpExpiry } = await generateOtp(
     userRegistrationData.phoneNumber,
   );
@@ -29,33 +24,11 @@ const RegisterUserMethod = async (
   });
 
   return new SuccessResponse('OTP sent successfully', {
-=======
-import prisma_client from "../../config/prisma";
-import { SuccessResponse } from "../../core/ApiResponse";
-import { userRegistrationInterface } from "../models/user.models";
-import { BadRequestError } from "../../core/ApiError";
-import generateOtp from "../middlewares/generateOtp";
-
-const RegisterUserMethod = async (userRegistrationData: userRegistrationInterface) => {
-  const existingUser = await prisma_client.user.findFirst({
-    where: { phoneNumber: userRegistrationData.phoneNumber },
-  });
-  if (existingUser) {
-    throw new BadRequestError("User not registered");
-  }
-  const { otp, otpExpiry } = await generateOtp(userRegistrationData.phoneNumber);
-  userRegistrationData.otp = otp;
-  userRegistrationData.otpExpiry = otpExpiry;
-
-  const registeredUser = await prisma_client.user.create({ data: { ...userRegistrationData } });
-
-  return new SuccessResponse("OTP sent successfully", {
->>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
     phoneNumber: userRegistrationData.phoneNumber,
     otpExpiry: userRegistrationData.otpExpiry,
   });
 };
-<<<<<<< HEAD
+
 const VerifyOtpMethod = async (
   userVerifyOtpData: userRegistrationInterface,
 ) => {

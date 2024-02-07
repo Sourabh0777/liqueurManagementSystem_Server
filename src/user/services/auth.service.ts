@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import * as authMethods from '../methods/auth.method';
 import {
   userRegistrationInterface,

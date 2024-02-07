@@ -1,13 +1,13 @@
 import { categoryInterface } from '../models/admin.models';
 import * as adminProductMethod from '../methods/adminProduct.method';
 
-const addProductCategoryService = async (
+const addCategoryService = async (
   productCategoryDetails: categoryInterface,
 ) => {
-  const serviceResponse = await adminProductMethod.addProductCategoryMethod(
+  const serviceResponse = await adminProductMethod.addCategoryMethod(
     productCategoryDetails,
   );
   return serviceResponse;
 };
 
-export { addProductCategoryService };
+export { addCategoryService };

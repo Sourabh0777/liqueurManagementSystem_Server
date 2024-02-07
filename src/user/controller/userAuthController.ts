@@ -1,8 +1,8 @@
-<<<<<<< HEAD
 import { Request, Response, NextFunction } from 'express';
 import * as userAuthService from '../services/auth.service';
 import { generateAuthToken } from '../middlewares/generateUserJWT';
 import { cookieOptions } from '../../utils/cookieOptions';
+
 const userRegisterController = async (
   req: Request,
   res: Response,
@@ -15,9 +15,11 @@ const userRegisterController = async (
     });
     return userRegistrationResponse.send(res);
   } catch (error) {
-    return next(error);
+    console.log('userRegisterController error:', error);
+    next(error);
   }
 };
+
 const userVerifyOtpController = async (
   req: Request,
   res: Response,
@@ -43,10 +45,11 @@ const userVerifyOtpController = async (
         });
     }
   } catch (error) {
-    console.log('error');
-    return next(error);
+    console.log('userVerifyOtpController error:', error);
+    next(error);
   }
 };
+
 const userLoginController = async (
   req: Request,
   res: Response,
@@ -59,37 +62,11 @@ const userLoginController = async (
     });
     return userLoginResponse.send(res);
   } catch (error) {
-    return next(error);
-  }
-};
-
-<<<<<<< HEAD
-export { userRegisterController, userVerifyOtpController, userLoginController };
-=======
-import { Request, Response, NextFunction } from "express";
-import * as userAuthService from "../services/auth.service";
-const userRegisterController = async (req: Request, res: Response, next: NextFunction) => {
-  try {
-    const { phoneNumber } = req.body;
-    const userRegistrationResponse = await userAuthService.userRegisterService({ phoneNumber });
-    return userRegistrationResponse.send(res);
-  } catch (error) {
-    console.log("🚀 ~ userRegisterController ~ error:", error);
+    console.log('userLoginController error:', error);
     next(error);
   }
 };
-const userVerifyOtpController = async (req: Request, res: Response) => {
-  const { otp, phoneNumber } = req.body;
-  const userVerifyOtpResponse = await userAuthService.userVerifyOtpService({
-    otp,
-    phoneNumber,
-  });
-  return userVerifyOtpResponse.send(res);
-};
 
-export { userRegisterController, userVerifyOtpController };
->>>>>>> fb715ff890ecbb60371a757fa2caca044a6d4187
-=======
 const updateUserDataController = async (
   req: Request,
   res: Response,
@@ -101,7 +78,7 @@ const updateUserDataController = async (
     );
     return userDataUpdateResponse.send(res);
   } catch (error) {
-    console.log('userDataUpdate error:', error);
+    console.log('updateUserDataController error:', error);
     next(error);
   }
 };
@@ -115,7 +92,8 @@ const getUserController = async (
     const getUserResponse = await userAuthService.getUserService(req.body);
     return getUserResponse.send(res);
   } catch (error) {
-    return next(error);
+    console.log('getUserController error:', error);
+    next(error);
   }
 };
 
@@ -130,7 +108,8 @@ const deleteUserController = async (
     );
     return deleteUserResponse.send(res);
   } catch (error) {
-    return next(error);
+    console.log('deleteUserController error:', error);
+    next(error);
   }
 };
 
@@ -145,7 +124,8 @@ const CurrentlyLoggedInUserController = async (
     );
     return deleteUserResponse.send(res);
   } catch (error) {
-    return next(error);
+    console.log('CurrentlyLoggedInUserController error:', error);
+    next(error);
   }
 };
 
@@ -153,9 +133,8 @@ export {
   userRegisterController,
   userVerifyOtpController,
   userLoginController,
-  CurrentlyLoggedInUserController,
   updateUserDataController,
   getUserController,
   deleteUserController,
+  CurrentlyLoggedInUserController,
 };
->>>>>>> b77e216d91bd6c1328849815beb9469289ee93a3

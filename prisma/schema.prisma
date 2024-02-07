@@ -181,7 +181,7 @@ model cartDetails {
   updatedAt        DateTime    @updatedAt()
   enabled          Boolean     @default(true)
   // Foreign key
-  userdetails      user        @relation(fields: [userDetailsID], references: [id])
+  cartDetails      user        @relation(fields: [userDetailsID], references: [id])
   inventoryDetails inventory[]
 }
 
