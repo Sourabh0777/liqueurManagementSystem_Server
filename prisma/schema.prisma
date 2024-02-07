@@ -7,64 +7,87 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-// Define the Gender enum
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
-
 model user {
   id            Int       @id @default(autoincrement())
-  firstName     String?
-  lastName      String?
-  emailAddress  String?   @unique
-  countryCode   String?   @default("+91")
-  phoneNumber   String    @unique
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
   addressLine1  String?
   addressLine2  String?
   city          String?
-  state         String?
   country       String?
-  zipCode       String?
-  gender        Gender?
+  countryCode   String?   @default("+91")
   dateOfBirth   DateTime?
-  userName      String?   @unique
-  userImage     String?
+  emailAddress  String?   @unique
+  enabled       Boolean   @default(true)
+  firstName     String?
+  gender        Gender?
   isOTPVerified Boolean   @default(false)
+  lastName      String?
+  state         String?
+  userImage     String?
   otp           Int?
   otpExpiry     DateTime?
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt()
-  enabled       Boolean   @default(true) // Assuming the default is enabled
+  userName      String?   @unique
+  zipCode       String?
+  phoneNumber   String    @unique
 
-  //Required at first are  phoneNumber
   @@map("users")
 }
 
 model Admin {
-  id            Int       @id @default(autoincrement())
-  firstName     String
-  lastName      String
-  emailAddress  String    @unique
-  countryCode   String?
-  phoneNumber   String?
-  addressLine1  String?
-  addressLine2  String?
-  city          String?
-  state         String?
-  country       String?
-  zipcode       String?
-  gender        Gender?
-  dateOfBirth   DateTime?
-  username      String    @unique
-  password      String
-  userImage     String?
-  roleType      String?
-  accessID      Int?       @unique
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
-  enabled       Boolean   @default(true)
+  id           Int       @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  emailAddress String    @unique
+  countryCode  String?
+  phoneNumber  String?
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  state        String?
+  country      String?
+  zipcode      String?
+  gender       Gender?
+  dateOfBirth  DateTime?
+  username     String    @unique
+  password     String
+  userImage    String?
+  roleType     String?
+  accessID     Int?      @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  enabled      Boolean   @default(true)
 
   @@map("admins")
+}
+
+model vendors {
+  id           Int       @id @default(autoincrement())
+  firstName    String
+  lastName     String
+  emailAddress String    @unique
+  countryCode  String?
+  phoneNumber  String?
+  addressLine1 String?
+  addressLine2 String?
+  city         String?
+  state        String?
+  country      String?
+  zipcode      String?
+  gender       Gender?
+  dateOfBirth  DateTime?
+  username     String    @unique
+  password     String
+  userImage    String?
+  roleType     String?
+  accessID     Int?      @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime
+  enabled      Boolean   @default(true)
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
 }

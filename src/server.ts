@@ -29,5 +29,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   }
 });
 app.listen(PORT, () => {
-  console.log('Listening To port PORT');
+  console.log('Listening To port PORT', PORT);
 });
