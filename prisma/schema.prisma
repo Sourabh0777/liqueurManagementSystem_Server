@@ -111,13 +111,12 @@ model vendor {
 
 model categoryDetail {
   id                Int                 @id @default(autoincrement())
-  categoryName      String              @unique
-  categoryDetails   String?
+  categoryName      String
+  categoryDetails   String
   categoryImageLink String?
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   enabled           Boolean             @default(true)
-  // Relationship with subcategories
   subCategories     subCategoryDetail[]
 
   @@map("categories")
@@ -126,35 +125,31 @@ model categoryDetail {
 model subCategoryDetail {
   id                   Int             @id @default(autoincrement())
   categoryDetailsID    Int
-  subCategoryName      String          @unique
-  subCategoryDetails   String?
+  subCategoryName      String
+  subCategoryDetails   String
   subCategoryImageLink String?
   createdAt            DateTime        @default(now())
   updatedAt            DateTime        @updatedAt
   enabled              Boolean         @default(true)
-  // Relationship with products
-  products             productDetail[]
-  // Foreign key
   category             categoryDetail  @relation(fields: [categoryDetailsID], references: [id])
+  products             productDetail[]
 
   @@map("subCategories")
 }
 
 model productDetail {
-  id                   Int      @id @default(autoincrement())
+  id                   Int               @id @default(autoincrement())
   subCategoryDetailsID Int
-  productName          String   @unique
+  productName          String
   measureQuantity      Float
   measureUnit          String
   countryOfOrigin      String
-  alcoholByVolume      Float
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-  enabled              Boolean  @default(true)
-
-  // Relationship with subcategories
-  subCategories subCategoryDetail @relation(fields: [subCategoryDetailsID], references: [id])
-  inventory     inventory[]
+  ABV                  Float
+  createdAt            DateTime          @default(now())
+  updatedAt            DateTime          @updatedAt
+  enabled              Boolean           @default(true)
+  subCategory          subCategoryDetail @relation(fields: [subCategoryDetailsID], references: [id])
+  inventory            inventory[]
 
   @@map("products")
 }
