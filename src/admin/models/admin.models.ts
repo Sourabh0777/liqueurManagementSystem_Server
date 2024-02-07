@@ -12,6 +12,7 @@ export interface adminDetails {
   id: number;
   firstName: string;
   lastName: string;
+  username: string;
   countryCode: string;
   phoneNumber: string;
   addressLine1: string;
@@ -28,4 +29,13 @@ export interface adminDetails {
   createdAt: Date;
   updatedAt: Date;
   enabled: boolean;
+  decodeToken: {
+    username: string;
+    id: number;
+    roleType: string;
+  };
+}
+
+export interface categoryInterface {
+  categoryName: String;
 }

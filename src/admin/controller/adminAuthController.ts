@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import * as adminAuthService from '../services/adminAuth.service';
 import { AuthFailureError } from '../../core/ApiError';
-import { generateToken } from '../middleware/jwt.middleware';
+import { generateAuthToken } from '../middleware/jwt.middleware';
 import bcrypt from 'bcrypt';
 
 const adminRegisterController = async (
@@ -47,18 +47,21 @@ const adminLoginController = async (
       res.status(401).json({ message: 'Invalid username or password' });
       return;
     }
-
-    const token = generateToken({
-      username: admin.username,
-      firstName: admin.firstName,
-      lastName: admin.lastName,
-    });
-
-    res
-      .cookie('jwtToken', token, { httpOnly: true })
-      .json({ message: 'Login successful' });
+    if (isPasswordValid && admin.id) {
+      const id = admin.id;
+      const roleType = admin.roleType;
+      return res
+        .cookie(
+          'user_access_token',
+          generateAuthToken(id, username, roleType),
+          {
+            httpOnly: true,
+          },
+        )
+        .json({ Success: 'Login successful' });
+    }
   } catch (error) {
-    console.log('🚀 ~ adminLoginController ~ error:', error);
+    console.log('Error:');
     next(error);
   }
 };

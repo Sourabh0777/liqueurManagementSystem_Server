@@ -24,6 +24,7 @@ const RegisterAdminMethod = async (
     data: {
       ...adminRegistrationData,
       password: hashedPassword,
+      roleType: 'admin',
     },
   });
   return new SuccessResponse('Signup Successful', {
