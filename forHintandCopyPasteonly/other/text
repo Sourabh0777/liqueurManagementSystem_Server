@@ -1,2 +1,3 @@
 docker build -t myapp:v1 .
 docker run --name myapp_c1 -p 5005:5005 --rm -v F:\Office\liqueurManagementSystem:/app -v /app/node_modules myapp:v1
+git merge -s ours main
