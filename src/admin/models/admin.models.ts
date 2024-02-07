@@ -40,3 +40,9 @@ export interface categoryInterface {
   categoryName: string;
   categoryDetails: string;
 }
+
+export interface subCategoryInterface {
+  categoryDetailsID: number;
+  subCategoryName: string;
+  subCategoryDetails: string;
+}

@@ -17,4 +17,21 @@ const addCategoryController = async (
   }
 };
 
-export { addCategoryController };
+const addSubCategoryController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const { categoryDetailsID, subCategoryName, subCategoryDetails } = req.body;
+    const subCategoryData = await adminProductService.addSubCategoryService({
+      categoryDetailsID,
+      subCategoryName,
+      subCategoryDetails,
+    });
+    return subCategoryData.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+export { addCategoryController, addSubCategoryController };
