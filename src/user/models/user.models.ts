@@ -5,15 +5,19 @@ export interface userRegistrationInterface {
 }
 
 export interface userDataInterface {
-  Id          :number;
-  firstName   :string;
-  lastName   :string;
-  addressLine1 :string;
-  addressLine2  :string;
-  city          :string;
-  state         :string;
-  country       :string;
-  zipCode       :string;
-  userName      :string;  
-  phoneNumber   :string;
+  Id: number;
+  firstName: string;
+  lastName: string;
+  addressLine1: string;
+  addressLine2: string;
+  city: string;
+  state: string;
+  country: string;
+  zipCode: string;
+  userName: string;
+  phoneNumber: string;
+  decodeToken: {
+    id: number;
+    phoneNumber: string;
+  };
 }

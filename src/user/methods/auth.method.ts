@@ -1,9 +1,11 @@
-import prisma_client from "../../config/prisma";
-import { SuccessResponse } from "../../core/ApiResponse";
-import { userRegistrationInterface,userDataInterface } from "../models/user.models";
-import { BadRequestError, NotFoundError } from "../../core/ApiError";
-import generateOtp from "../middlewares/generateOtp";
-
+import prisma_client from '../../config/prisma';
+import { SuccessResponse } from '../../core/ApiResponse';
+import {
+  userRegistrationInterface,
+  userDataInterface,
+} from '../models/user.models';
+import { BadRequestError, NotFoundError } from '../../core/ApiError';
+import generateOtp from '../middlewares/generateOtp';
 
 const RegisterUserMethod = async (
   userRegistrationData: userRegistrationInterface,
@@ -73,49 +75,49 @@ const LoginMethod = async (userLoginData: userRegistrationInterface) => {
   });
 };
 
+const UpdateUserMethod = async (newUserData: userDataInterface) => {
+  const { decodeToken, ...data } = newUserData;
+  const updateUser = await prisma_client.user.update({
+    where: {
+      id: decodeToken.id,
+    },
+    data: data,
+  });
 
-const UpdateUserMethod = async (newUserData:userDataInterface)=>{
+  return new SuccessResponse('Data Changed Successfully', updateUser);
+};
 
-    const {Id,...data}=newUserData;
-    const updateUser= await prisma_client.user.update({
-      where:{
-        id:Id,
-      },
-        data:data
-      })
- 
-    return new SuccessResponse("Data Changed Successfully",updateUser)
-  
-}
-
-const getUserMethod = async (userData:userDataInterface)=>{
-
-  const {Id}=userData;
+const getUserMethod = async (userData: userDataInterface) => {
+  const { decodeToken, ...data } = userData;
   const getUser = await prisma_client.user.findUnique({
-    where:{
-      id:Id,
-    }
-  })
-  if(!getUser){
-    throw new NotFoundError("User not Found");
+    where: {
+      id: decodeToken.id,
+    },
+  });
+  if (!getUser) {
+    throw new NotFoundError('User not Found');
   }
-  return new SuccessResponse("Fetched User Details",getUser);
-}
+  return new SuccessResponse('Fetched User Details', getUser);
+};
 
-const deleteUserMethod = async (userData:userDataInterface)=>{
-
-  const{Id}=userData;
-  const deleteUser= await prisma_client.user.delete({
-    where:{
-      id:Id,
+const deleteUserMethod = async (userData: userDataInterface) => {
+  const { decodeToken, ...data } = userData;
+  const deleteUser = await prisma_client.user.delete({
+    where: {
+      id: decodeToken.id,
+    },
+  });
+  if (!deleteUser) {
+    throw new NotFoundError('User not Found');
   }
-})
-if(!deleteUser){
-  throw new NotFoundError("User not Found");
-}
-return new SuccessResponse("User Deleted Successfully",deleteUser);
+  return new SuccessResponse('User Deleted Successfully', deleteUser);
+};
 
-}
-
-export { RegisterUserMethod, VerifyOtpMethod, LoginMethod, UpdateUserMethod, getUserMethod, deleteUserMethod} ;
-
+export {
+  RegisterUserMethod,
+  VerifyOtpMethod,
+  LoginMethod,
+  UpdateUserMethod,
+  getUserMethod,
+  deleteUserMethod,
+};

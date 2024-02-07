@@ -1,6 +1,7 @@
 import * as authMethods from '../methods/auth.method';
 import {
-  userRegistrationInterface,userDataInterface
+  userRegistrationInterface,
+  userDataInterface,
 } from '../models/user.models';
 const userRegisterService = async (
   userRegistrationData: userRegistrationInterface,
@@ -20,24 +21,30 @@ const userVerifyOtpService = async (
   return registrationResponse;
 };
 
-
-const userDataUpdateService = async (newUserData:userDataInterface)=>{
-  const dataUpdateResponse= await authMethods.UpdateUserMethod(newUserData);
+const userDataUpdateService = async (newUserData: userDataInterface) => {
+  const dataUpdateResponse = await authMethods.UpdateUserMethod(newUserData);
   return dataUpdateResponse;
-}
+};
 
 const userLoginService = async (userLoginData: userRegistrationInterface) => {
   const loginResponse = await authMethods.LoginMethod(userLoginData);
   return loginResponse;
 };
 
-const getUserService =async (getUser : userDataInterface)=>{
-  const getUserResponse= await authMethods.getUserMethod(getUser);
-  return getUserResponse
-}
+const getUserService = async (getUser: userDataInterface) => {
+  const getUserResponse = await authMethods.getUserMethod(getUser);
+  return getUserResponse;
+};
 
-const deleteUserService =async (deleteUser : userDataInterface)=>{
-  const deleteUserResponse= await authMethods.deleteUserMethod(deleteUser);
+const deleteUserService = async (deleteUser: userDataInterface) => {
+  const deleteUserResponse = await authMethods.deleteUserMethod(deleteUser);
   return deleteUserResponse;
-}
-export { userRegisterService, userVerifyOtpService, userLoginService,userDataUpdateService, getUserService, deleteUserService};
+};
+export {
+  userRegisterService,
+  userVerifyOtpService,
+  userLoginService,
+  userDataUpdateService,
+  getUserService,
+  deleteUserService,
+};
