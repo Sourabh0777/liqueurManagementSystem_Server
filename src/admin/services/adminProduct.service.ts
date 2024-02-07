@@ -1,5 +1,6 @@
 import {
   categoryInterface,
+  createProductInterface,
   subCategoryInterface,
 } from '../models/admin.models';
 import * as adminProductMethod from '../methods/adminProduct.method';
@@ -22,4 +23,10 @@ const addSubCategoryService = async (
   return serviceResponse;
 };
 
-export { addCategoryService, addSubCategoryService };
+const addProductService = async (productDetails: createProductInterface) => {
+  const serviceResponse = await adminProductMethod.addProductMethod(
+    productDetails,
+  );
+  return serviceResponse;
+};
+export { addCategoryService, addSubCategoryService, addProductService };

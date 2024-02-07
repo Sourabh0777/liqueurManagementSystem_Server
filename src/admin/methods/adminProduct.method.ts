@@ -1,6 +1,7 @@
 import prisma_client from '../../config/prisma';
 import {
   categoryInterface,
+  createProductInterface,
   subCategoryInterface,
 } from '../models/admin.models';
 import { BadRequestError, NotFoundError } from '../../core/ApiError';
@@ -41,5 +42,13 @@ const addSubCategoryMethod = async (
     subCategoryName: addedSubCategory,
   });
 };
+const addProductMethod = async (productDetails: createProductInterface) => {
+  const addedSubCategory = await prisma_client.productDetail.create({
+    data: { ...productDetails },
+  });
+  return new SuccessResponse('Product Added', {
+    subCategoryName: addedSubCategory,
+  });
+};
 
-export { addCategoryMethod, addSubCategoryMethod };
+export { addCategoryMethod, addSubCategoryMethod, addProductMethod };

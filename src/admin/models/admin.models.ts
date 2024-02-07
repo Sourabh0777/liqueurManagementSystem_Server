@@ -46,3 +46,12 @@ export interface subCategoryInterface {
   subCategoryName: string;
   subCategoryDetails: string;
 }
+export interface createProductInterface {
+  subCategoryDetailsID: number;
+  productName: string;
+  measureQuantity: number;
+  measureUnit: string;
+  countryOfOrigin: string;
+  ABV: number;
+  enabled?: boolean;
+}

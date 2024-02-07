@@ -117,7 +117,8 @@ model categoryDetail {
   createdAt         DateTime            @default(now())
   updatedAt         DateTime            @updatedAt
   enabled           Boolean             @default(true)
-  subCategories     subCategoryDetail[] //one-to-many relationship
+  //one-to-many relationship with subCategoryDetail
+  subCategories     subCategoryDetail[]
 
   @@map("categories")
 }
@@ -133,24 +134,27 @@ model subCategoryDetail {
   enabled              Boolean         @default(true)
   products             productDetail[]
   // Define the relationship with categoryDetail
-  category             categoryDetail  @relation(fields: [categoryDetailsID], references: [id])
+  categoryDetail       categoryDetail  @relation(fields: [categoryDetailsID], references: [id])
 
   @@map("subCategories")
 }
 
 model productDetail {
-  id                   Int               @id @default(autoincrement())
+  id                   Int      @id @default(autoincrement())
   subCategoryDetailsID Int
   productName          String
   measureQuantity      Float
-  measureUnit          String
-  countryOfOrigin      String
+  measureUnit          String   @default("mL")
+  countryOfOrigin      String   @default("India")
   ABV                  Float
-  createdAt            DateTime          @default(now())
-  updatedAt            DateTime          @updatedAt
-  enabled              Boolean           @default(true)
-  subCategory          subCategoryDetail @relation(fields: [subCategoryDetailsID], references: [id])
-  inventory            inventory[]
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  enabled              Boolean  @default(true)
+
+  //one-to-many relationship with subCategoryDetail
+  inventory         inventory[]
+  // Define the relationship with categoryDetail
+  subCategoryDetail subCategoryDetail @relation(fields: [subCategoryDetailsID], references: [id])
 
   @@map("products")
 }
