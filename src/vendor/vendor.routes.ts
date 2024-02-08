@@ -4,13 +4,13 @@ import { vendorRegisterController } from './controller/vendorAuthController';
 const vendorRoutes = express();
 
 vendorRoutes.post(
-  '/registervendor',
+  '/registerVendor',
   vendorAuthController.vendorRegisterController,
 );
-vendorRoutes.post('/loginvendor', vendorAuthController.vendorLoginController);
-vendorRoutes.get('/getvendor', vendorAuthController.getVendorController);
+vendorRoutes.post('/loginVendor', vendorAuthController.vendorLoginController);
+vendorRoutes.get('/getVendor', vendorAuthController.getVendorController);
 vendorRoutes.delete(
-  '/deletevendor',
+  '/deleteVendor',
   vendorAuthController.deleteVendorController,
 );
 

@@ -38,6 +38,7 @@ adminRoutes.get(
   '/getAllProducts',
   adminProductController.getAllProductsController,
 );
+adminRoutes.get('/getProduct/:id', adminProductController.getProductController);
 adminRoutes.post('/addProduct', adminProductController.addProductsController);
 adminRoutes.put(
   '/updateProduct/:id',
