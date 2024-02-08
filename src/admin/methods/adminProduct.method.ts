@@ -109,15 +109,7 @@ const getProductMethod = async (id: number) => {
     existingProduct,
   });
 };
-export {
-  addCategoryMethod,
-  addSubCategoryMethod,
-  addProductMethod,
-  updateProductMethod,
-  getAllProductsMethod,
-  deleteProductMethod,
-  getProductMethod,
-};
+
 const updateCategoryMethod = async (updatedCategory: categoryInterface) => {
   try {
     const { ...data } = updatedCategory;
@@ -206,4 +198,8 @@ export {
   deleteCategoryMethod,
   updateSubCategoryMethod,
   deleteSubCategoryMethod,
+  updateProductMethod,
+  getAllProductsMethod,
+  deleteProductMethod,
+  getProductMethod,
 };

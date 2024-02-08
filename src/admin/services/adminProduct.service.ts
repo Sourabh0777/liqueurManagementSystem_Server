@@ -51,15 +51,6 @@ const getProductService = async (id: number) => {
   const serviceResponse = await adminProductMethod.getProductMethod(id);
   return serviceResponse;
 };
-export {
-  addCategoryService,
-  addSubCategoryService,
-  addProductService,
-  updateProductService,
-  getAllProductsService,
-  deleteProductService,
-  getProductService,
-};
 
 const updateCategoryService = async (updatedCategory: categoryInterface) => {
   const category = await adminProductMethod.updateCategoryMethod(
@@ -100,4 +91,8 @@ export {
   deleteCategoryService,
   updateSubCategoryService,
   deleteSubCategoryService,
+  updateProductService,
+  getAllProductsService,
+  deleteProductService,
+  getProductService,
 };
