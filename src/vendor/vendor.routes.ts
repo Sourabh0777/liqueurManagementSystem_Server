@@ -10,22 +10,22 @@ import {
 const vendorRoutes = express();
 
 vendorRoutes.post(
-  '/registervendor',
+  '/registerVendor',
   validateVendorRegisterRequest,
   isRequestValidated,
   vendorAuthController.vendorRegisterController,
 );
 vendorRoutes.post(
-  '/loginvendor',
+  '/loginVendor',
   validateVendorLoginRequest,
   isRequestValidated,
   vendorAuthController.vendorLoginController,
 );
 
-vendorRoutes.get('/getvendor', vendorAuthController.getVendorController);
+vendorRoutes.get('/getVendor', vendorAuthController.getVendorController);
 
 vendorRoutes.delete(
-  '/deletevendor',
+  '/deleteVendor',
   validateVendorDeleteRequest,
   isRequestValidated,
   vendorAuthController.deleteVendorController,

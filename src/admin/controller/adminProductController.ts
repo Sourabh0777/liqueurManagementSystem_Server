@@ -137,6 +137,23 @@ const deleteProductsController = async (
     return next(error);
   }
 };
+const getProductController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const productId = req.params.id;
+  if (!productId) throw new BadRequestError('No ID provided');
+  try {
+    const ProductsData = await adminProductService.getProductService(
+      Number(productId),
+    );
+    return ProductsData.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+
 export {
   addCategoryController,
   addSubCategoryController,
@@ -144,4 +161,5 @@ export {
   updateProductsController,
   getAllProductsController,
   deleteProductsController,
+  getProductController,
 };

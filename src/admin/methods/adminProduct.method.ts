@@ -93,6 +93,18 @@ const deleteProductMethod = async (id: number) => {
     deletedProduct,
   });
 };
+
+const getProductMethod = async (id: number) => {
+  const existingProduct = await prisma_client.productDetail.findUnique({
+    where: { id: id },
+  });
+  if (!existingProduct) {
+    throw new BadRequestError('No products found.');
+  }
+  return new SuccessResponse('Fetched Product', {
+    existingProduct,
+  });
+};
 export {
   addCategoryMethod,
   addSubCategoryMethod,
@@ -100,4 +112,5 @@ export {
   updateProductMethod,
   getAllProductsMethod,
   deleteProductMethod,
+  getProductMethod,
 };

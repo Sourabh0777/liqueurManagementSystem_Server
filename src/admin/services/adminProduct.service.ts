@@ -45,6 +45,10 @@ const deleteProductService = async (id: number) => {
   const serviceResponse = await adminProductMethod.deleteProductMethod(id);
   return serviceResponse;
 };
+const getProductService = async (id: number) => {
+  const serviceResponse = await adminProductMethod.getProductMethod(id);
+  return serviceResponse;
+};
 export {
   addCategoryService,
   addSubCategoryService,
@@ -52,4 +56,5 @@ export {
   updateProductService,
   getAllProductsService,
   deleteProductService,
+  getProductService,
 };
