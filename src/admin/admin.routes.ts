@@ -14,6 +14,7 @@ import {
   validateAdminRegisterRequest,
   validateDeleteAdminRequest,
   validateUpdateAdminPassword,
+  validateupdateProductRequest,
 } from './middleware/adminvalidator';
 
 import {
@@ -82,12 +83,26 @@ adminRoutes.post(
   isRequestValidated,
   adminProductController.addSubCategoryController,
 );
+//Products Routes
+adminRoutes.get(
+  '/getAllProducts',
+  adminProductController.getAllProductsController,
+);
 adminRoutes.post(
-  '/addProducts',
+  '/addProduct',
   validateAddProduct,
   isRequestValidated,
   adminProductController.addProductsController,
 );
-
+adminRoutes.put(
+  '/updateProduct/:id',
+  validateupdateProductRequest,
+  isRequestValidated,
+  adminProductController.updateProductsController,
+);
+adminRoutes.delete(
+  '/deleteProduct/:id',
+  adminProductController.deleteProductsController,
+);
 //Export
 export default adminRoutes;

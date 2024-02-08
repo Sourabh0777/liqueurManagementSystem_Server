@@ -65,6 +65,22 @@ export const validateAddProduct = [
   check('enabled').notEmpty().withMessage('Enabled status is required'),
 ];
 
+export const validateupdateProductRequest = [
+  check('subCategoryDetailsID')
+    .notEmpty()
+    .withMessage('Sub Category Details ID is required'),
+  check('productName').notEmpty().withMessage('Product name is required'),
+  check('measureQuantity')
+    .notEmpty()
+    .withMessage('Measure quantity is required'),
+  check('measureUnit').notEmpty().withMessage('Measure unit is required'),
+  check('countryOfOrigin')
+    .notEmpty()
+    .withMessage('Country of origin is required'),
+  check('ABV').notEmpty().withMessage('Alcohol by volume (ABV) is required'),
+  check('enabled').notEmpty().withMessage('Enabled status is required'),
+];
+
 export const isRequestValidated = (
   req: Request,
   res: Response,

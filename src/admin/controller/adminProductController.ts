@@ -74,8 +74,74 @@ const addProductsController = async (
     return next(error);
   }
 };
+const updateProductsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const {
+      subCategoryDetailsID,
+      productName,
+      measureQuantity,
+      measureUnit,
+      countryOfOrigin,
+      ABV,
+      enabled,
+    } = req.body;
+    const { id } = req.params;
+
+    const createdProductData = await adminProductService.updateProductService({
+      productId: Number(id),
+      UpdateProduct: {
+        subCategoryDetailsID,
+        productName,
+        measureQuantity,
+        measureUnit,
+        countryOfOrigin,
+        ABV,
+        enabled,
+      },
+    });
+    return createdProductData.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getAllProductsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const ProductsData = await adminProductService.getAllProductsService();
+    return ProductsData.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+const deleteProductsController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const productId = req.params.id;
+  if (!productId) throw new BadRequestError('No ID provided');
+  try {
+    const deletedProductsData = await adminProductService.deleteProductService(
+      Number(productId),
+    );
+    return deletedProductsData.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
 export {
   addCategoryController,
   addSubCategoryController,
   addProductsController,
+  updateProductsController,
+  getAllProductsController,
+  deleteProductsController,
 };

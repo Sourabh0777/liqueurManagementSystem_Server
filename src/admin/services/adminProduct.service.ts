@@ -2,6 +2,7 @@ import {
   categoryInterface,
   createProductInterface,
   subCategoryInterface,
+  updateProductInterface,
 } from '../models/admin.models';
 import * as adminProductMethod from '../methods/adminProduct.method';
 
@@ -29,4 +30,26 @@ const addProductService = async (productDetails: createProductInterface) => {
   );
   return serviceResponse;
 };
-export { addCategoryService, addSubCategoryService, addProductService };
+const updateProductService = async (productDetails: updateProductInterface) => {
+  const serviceResponse = await adminProductMethod.updateProductMethod(
+    productDetails,
+  );
+  return serviceResponse;
+};
+const getAllProductsService = async () => {
+  const serviceResponse = await adminProductMethod.getAllProductsMethod();
+  return serviceResponse;
+};
+
+const deleteProductService = async (id: number) => {
+  const serviceResponse = await adminProductMethod.deleteProductMethod(id);
+  return serviceResponse;
+};
+export {
+  addCategoryService,
+  addSubCategoryService,
+  addProductService,
+  updateProductService,
+  getAllProductsService,
+  deleteProductService,
+};
