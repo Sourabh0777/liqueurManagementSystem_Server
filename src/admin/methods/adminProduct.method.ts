@@ -3,6 +3,7 @@ import {
   categoryInterface,
   createProductInterface,
   subCategoryInterface,
+  updateProductInterface,
 } from '../models/admin.models';
 import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import { SuccessResponse } from '../../core/ApiResponse';
@@ -43,12 +44,60 @@ const addSubCategoryMethod = async (
   });
 };
 const addProductMethod = async (productDetails: createProductInterface) => {
-  const addedSubCategory = await prisma_client.productDetail.create({
+  const addProduct = await prisma_client.productDetail.create({
     data: { ...productDetails },
   });
   return new SuccessResponse('Product Added', {
-    subCategoryName: addedSubCategory,
+    addedProduct: addProduct,
+  });
+};
+const updateProductMethod = async (productDetails: updateProductInterface) => {
+  const existingProduct = await prisma_client.productDetail.findUnique({
+    where: { id: productDetails.productId },
+  });
+  if (!existingProduct) {
+    throw new BadRequestError('Product not found');
+  }
+  const updatedProduct = await prisma_client.productDetail.update({
+    where: { id: productDetails.productId },
+    data: {
+      ...productDetails.UpdateProduct,
+    },
+  });
+  return new SuccessResponse('Product updated', {
+    updatedProduct: updatedProduct,
   });
 };
 
-export { addCategoryMethod, addSubCategoryMethod, addProductMethod };
+const getAllProductsMethod = async () => {
+  const allProducts = await prisma_client.productDetail.findMany();
+  if (!allProducts) {
+    throw new BadRequestError('No products found.');
+  }
+  return new SuccessResponse('Fetched All products.', {
+    allProducts: allProducts,
+  });
+};
+const deleteProductMethod = async (id: number) => {
+  const existingProduct = await prisma_client.productDetail.findUnique({
+    where: { id: id },
+  });
+  if (!existingProduct) {
+    throw new BadRequestError('No products found.');
+  }
+  const deletedProduct = await prisma_client.productDetail.delete({
+    where: { id: id },
+  });
+
+  return new SuccessResponse('Product deleted', {
+    deletedProduct,
+  });
+};
+export {
+  addCategoryMethod,
+  addSubCategoryMethod,
+  addProductMethod,
+  updateProductMethod,
+  getAllProductsMethod,
+  deleteProductMethod,
+};

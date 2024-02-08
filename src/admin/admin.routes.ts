@@ -27,13 +27,25 @@ adminRoutes.put(
 adminRoutes.delete('/deleteAdmin', adminDeleteController.deleteAdminController);
 adminRoutes.post('/registerUser', userAuthController.userRegisterController);
 adminRoutes.post('/verifyUser', userAuthController.userVerifyOtpController);
-//Products Routes
+//Category Routes
 adminRoutes.post('/addCategory', adminProductController.addCategoryController);
 adminRoutes.post(
   '/addSubCategory',
   adminProductController.addSubCategoryController,
 );
-adminRoutes.post('/addProducts', adminProductController.addProductsController);
-
+//Products Routes
+adminRoutes.get(
+  '/getAllProducts',
+  adminProductController.getAllProductsController,
+);
+adminRoutes.post('/addProduct', adminProductController.addProductsController);
+adminRoutes.put(
+  '/updateProduct/:id',
+  adminProductController.updateProductsController,
+);
+adminRoutes.delete(
+  '/deleteProduct/:id',
+  adminProductController.deleteProductsController,
+);
 //Export
 export default adminRoutes;

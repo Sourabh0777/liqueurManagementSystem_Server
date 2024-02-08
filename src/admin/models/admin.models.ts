@@ -55,3 +55,15 @@ export interface createProductInterface {
   ABV: number;
   enabled?: boolean;
 }
+export interface updateProductInterface {
+  productId: number;
+  UpdateProduct: {
+    subCategoryDetailsID?: number;
+    productName?: string;
+    measureQuantity?: number;
+    measureUnit?: string;
+    countryOfOrigin?: string;
+    ABV?: number;
+    enabled?: boolean;
+  };
+}
