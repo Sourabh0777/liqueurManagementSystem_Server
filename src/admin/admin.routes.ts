@@ -41,6 +41,27 @@ adminRoutes.delete(
   '/deleteVendor',
   adminDeleteController.deleteVendorController,
 );
-
+adminRoutes.post('/addProducts', adminProductController.addProductsController);
+adminRoutes.get('/getAllCategories', adminProductController.getAllCategories);
+adminRoutes.get(
+  '/getAllSubCategories',
+  adminProductController.getAllSubCategories,
+);
+adminRoutes.put(
+  '/updateCategory',
+  adminProductController.updateCategoryController,
+);
+adminRoutes.put(
+  '/updateSubCategory',
+  adminProductController.updateSubCategoryController,
+);
+adminRoutes.delete(
+  '/deleteCategory',
+  adminProductController.deleteCategoryController,
+);
+adminRoutes.delete(
+  '/deleteSubCategory',
+  adminProductController.deleteSubCategoryController,
+);
 //Export
 export default adminRoutes;
