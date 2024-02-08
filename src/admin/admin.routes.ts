@@ -4,6 +4,7 @@ import * as adminUpdateDetailsController from './controller/adminUpdateDetailsCo
 import * as adminDeleteController from './controller/adminDeleteController';
 import * as adminProductController from './controller/adminProductController';
 import * as userAuthController from '../user/controller/userAuthController';
+import * as adminGetController from '../admin/controller/adminGetController';
 import { verifyIsAdmin, verifyIsLoggedIn } from '../middleware/verifyAuthToken';
 
 const adminRoutes = express();
@@ -33,7 +34,13 @@ adminRoutes.post(
   '/addSubCategory',
   adminProductController.addSubCategoryController,
 );
-adminRoutes.post('/addProducts', adminProductController.addProductsController);
+adminRoutes.get('/getAllUsers', adminGetController.getAllUsersController);
+adminRoutes.get('/getAllVendors', adminGetController.getAllVendorsController);
+adminRoutes.delete('/deleteUser', adminDeleteController.deleteUserController);
+adminRoutes.delete(
+  '/deleteVendor',
+  adminDeleteController.deleteVendorController,
+);
 
 //Export
 export default adminRoutes;

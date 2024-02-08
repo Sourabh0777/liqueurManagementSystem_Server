@@ -18,4 +18,35 @@ const deleteAdminMethod = async (adminId: number) => {
   }
 };
 
-export { deleteAdminMethod };
+const deleteUserMethod = async (userId: number) => {
+  try {
+    const user = await prisma_client.user.delete({
+      where: { id: userId },
+    });
+
+    if (!user) {
+      throw new NotFoundError('User not found');
+    }
+    return new SuccessResponse('User Deleted', { message: 'Successful' });
+  } catch (error) {
+    console.error('Error while deleting:', error);
+    throw error;
+  }
+};
+
+const deleteVendorMethod = async (vendorId: number) => {
+  try {
+    const vendor = await prisma_client.vendor.delete({
+      where: { id: vendorId },
+    });
+
+    if (!vendor) {
+      throw new NotFoundError('Vendor not found');
+    }
+    return new SuccessResponse('Vendor Deleted', { message: 'Successful' });
+  } catch (error) {
+    console.error('Error while deleting:', error);
+    throw error;
+  }
+};
+export { deleteAdminMethod, deleteUserMethod, deleteVendorMethod };
