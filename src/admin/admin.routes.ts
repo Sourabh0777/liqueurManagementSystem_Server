@@ -6,17 +6,44 @@ import * as adminProductController from './controller/adminProductController';
 import * as userAuthController from '../user/controller/userAuthController';
 import * as adminGetController from '../admin/controller/adminGetController';
 import { verifyIsAdmin, verifyIsLoggedIn } from '../middleware/verifyAuthToken';
+import {
+  isRequestValidated,
+  validateAddCategory,
+  validateAddProduct,
+  validateAddSubCategory,
+  validateAdminLoginRequest,
+  validateAdminRegisterRequest,
+  validateDeleteAdminRequest,
+  validateUpdateAdminPassword,
+  validateupdateProductRequest,
+} from './middleware/adminvalidator';
 
+import {
+  validateUserRegisterRequest,
+  validateVerifyOtpRequest,
+} from '../user/middlewares/userValidator';
 const adminRoutes = express();
 
 // Auth related API's
-adminRoutes.post('/registerAdmin', adminAuthController.adminRegisterController);
-adminRoutes.post('/loginAdmin', adminAuthController.adminLoginController);
+adminRoutes.post(
+  '/registerAdmin',
+  validateAdminRegisterRequest,
+  isRequestValidated,
+  adminAuthController.adminRegisterController,
+);
+adminRoutes.post(
+  '/loginAdmin',
+  validateAdminLoginRequest,
+  isRequestValidated,
+  adminAuthController.adminLoginController,
+);
 
 adminRoutes.use(verifyIsLoggedIn);
 adminRoutes.use(verifyIsAdmin);
 adminRoutes.put(
   '/changeAdminPassword',
+  validateUpdateAdminPassword,
+  isRequestValidated,
   adminUpdateDetailsController.updateAdminPasswordController,
 );
 
@@ -25,14 +52,59 @@ adminRoutes.put(
   adminUpdateDetailsController.updateAdminDetailsController,
 );
 
-adminRoutes.delete('/deleteAdmin', adminDeleteController.deleteAdminController);
-adminRoutes.post('/registerUser', userAuthController.userRegisterController);
-adminRoutes.post('/verifyUser', userAuthController.userVerifyOtpController);
+adminRoutes.delete(
+  '/deleteAdmin',
+  validateDeleteAdminRequest,
+  isRequestValidated,
+  adminDeleteController.deleteAdminController,
+);
+
+adminRoutes.post(
+  '/registerUser',
+  validateUserRegisterRequest,
+  isRequestValidated,
+  userAuthController.userRegisterController,
+);
+adminRoutes.post(
+  '/verifyUser',
+  validateVerifyOtpRequest,
+  isRequestValidated,
+  userAuthController.userVerifyOtpController,
+);
 //Products Routes
-adminRoutes.post('/addCategory', adminProductController.addCategoryController);
+adminRoutes.post(
+  '/addCategory',
+  validateAddCategory,
+  isRequestValidated,
+  adminProductController.addCategoryController,
+);
 adminRoutes.post(
   '/addSubCategory',
+  validateAddSubCategory,
+  isRequestValidated,
   adminProductController.addSubCategoryController,
+);
+//Products Routes
+adminRoutes.get(
+  '/getAllProducts',
+  adminProductController.getAllProductsController,
+);
+adminRoutes.get('/getProduct/:id', adminProductController.getProductController);
+adminRoutes.post(
+  '/addProduct',
+  validateAddProduct,
+  isRequestValidated,
+  adminProductController.addProductsController,
+);
+adminRoutes.put(
+  '/updateProduct/:id',
+  validateupdateProductRequest,
+  isRequestValidated,
+  adminProductController.updateProductsController,
+);
+adminRoutes.delete(
+  '/deleteProduct/:id',
+  adminProductController.deleteProductsController,
 );
 adminRoutes.get('/getAllUsers', adminGetController.getAllUsersController);
 adminRoutes.get('/getAllVendors', adminGetController.getAllVendorsController);
