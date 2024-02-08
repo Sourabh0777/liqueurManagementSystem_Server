@@ -1,18 +1,23 @@
-import { userDataInterface } from './../models/user.models';
 import prisma_client from '../../config/prisma';
 import { SuccessResponse } from '../../core/ApiResponse';
-import { userRegistrationInterface } from '../models/user.models';
+import {
+  userRegistrationInterface,
+  userDataInterface,
+} from '../models/user.models';
 import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import generateOtp from '../middlewares/generateOtp';
+
 const RegisterUserMethod = async (
   userRegistrationData: userRegistrationInterface,
 ) => {
   const existingUser = await prisma_client.user.findFirst({
     where: { phoneNumber: userRegistrationData.phoneNumber },
   });
+
   if (existingUser) {
     throw new BadRequestError('User already registered.');
   }
+
   const { otp, otpExpiry } = await generateOtp(
     userRegistrationData.phoneNumber,
   );
