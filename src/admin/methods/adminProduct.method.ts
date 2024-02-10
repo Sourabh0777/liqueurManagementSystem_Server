@@ -190,6 +190,50 @@ const deleteSubCategoryMethod = async (subCategoryId: number) => {
   }
 };
 
+const getCategoryMethod = async (id: number) => {
+  const existingCategory = await prisma_client.categoryDetail.findUnique({
+    where: { id: id },
+  });
+  if (!existingCategory) {
+    throw new BadRequestError('No Category found.');
+  }
+  return new SuccessResponse('Fetched Sub-Category', {
+    existingCategory,
+  });
+};
+
+const getSubCategoryMethod = async (id: number) => {
+  const existingSubCategory = await prisma_client.subCategoryDetail.findUnique({
+    where: { id: id },
+  });
+  if (!existingSubCategory) {
+    throw new BadRequestError('No Sub-Category found.');
+  }
+  return new SuccessResponse('Fetched Sub-category', {
+    existingSubCategory,
+  });
+};
+
+const getAllCategoriesMethod = async () => {
+  const allCategories = await prisma_client.categoryDetail.findMany();
+  if (!allCategories) {
+    throw new BadRequestError('No Categories Found.');
+  }
+  return new SuccessResponse('Fetched all Categories.', {
+    allCategories: allCategories,
+  });
+};
+
+const getAllSubCategoriesMethod = async () => {
+  const allSubCategories = await prisma_client.subCategoryDetail.findMany();
+  if (!allSubCategories) {
+    throw new BadRequestError('No Sub-Categories Found.');
+  }
+  return new SuccessResponse('Fetched all Sub-Categories.', {
+    allSubCategories: allSubCategories,
+  });
+};
+
 export {
   addCategoryMethod,
   addSubCategoryMethod,
@@ -202,4 +246,8 @@ export {
   getAllProductsMethod,
   deleteProductMethod,
   getProductMethod,
+  getCategoryMethod,
+  getSubCategoryMethod,
+  getAllCategoriesMethod,
+  getAllSubCategoriesMethod,
 };

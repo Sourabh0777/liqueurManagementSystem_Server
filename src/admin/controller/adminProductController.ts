@@ -162,15 +162,8 @@ const getAllCategories = async (
   next: NextFunction,
 ) => {
   try {
-    const categories = await prisma_client.categoryDetail.findMany();
-    if (!categories) {
-      throw new BadRequestError('No categories Found!');
-    }
-    const allUsers = new SuccessResponse(
-      'Categories Fetched successfully',
-      categories,
-    );
-    return allUsers.send(res);
+    const categoryData = await adminProductService.getAllCategoriesService();
+    return categoryData.send(res);
   } catch (err) {
     return next(err);
   }
@@ -201,12 +194,12 @@ const deleteCategoryController = async (
   next: NextFunction,
 ) => {
   try {
-    const categoryId = req.body.id;
+    const categoryId = req.params.id;
     if (!categoryId) {
       throw new BadRequestError('categoryId required');
     }
     const deleteCategoryResponse =
-      await adminProductService.deleteCategoryService(categoryId);
+      await adminProductService.deleteCategoryService(Number(categoryId));
     return deleteCategoryResponse.send(res);
   } catch (err) {
     console.log('Error deleting Category:', err);
@@ -220,15 +213,9 @@ const getAllSubCategories = async (
   next: NextFunction,
 ) => {
   try {
-    const subCategories = await prisma_client.subCategoryDetail.findMany();
-    if (!subCategories) {
-      throw new BadRequestError('No sub-categories Found!');
-    }
-    const allUsers = new SuccessResponse(
-      'Sub-Categories Fetched successfully',
-      subCategories,
-    );
-    return allUsers.send(res);
+    const subCategoryData =
+      await adminProductService.getAllSubCategoriesService();
+    return subCategoryData.send(res);
   } catch (err) {
     return next(err);
   }
@@ -262,16 +249,50 @@ const deleteSubCategoryController = async (
   next: NextFunction,
 ) => {
   try {
-    const subCategoryId = req.body.id;
+    const subCategoryId = req.params.id;
     if (!subCategoryId) {
       throw new BadRequestError('subCategoryId required');
     }
     const deleteSubCategoryResponse =
-      await adminProductService.deleteSubCategoryService(subCategoryId);
+      await adminProductService.deleteSubCategoryService(Number(subCategoryId));
     return deleteSubCategoryResponse.send(res);
   } catch (err) {
     console.log('Error deleting Sub-Category:', err);
     next(err);
+  }
+};
+
+const getCategoryController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const categoryId = req.params.id;
+  if (!categoryId) throw new BadRequestError('No ID provided');
+  try {
+    const categoryData = await adminProductService.getCategoryService(
+      Number(categoryId),
+    );
+    return categoryData.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+const getSubCategoryController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const subCategoryId = req.params.id;
+  if (!subCategoryId) throw new BadRequestError('No ID provided');
+  try {
+    const subCategoryData = await adminProductService.getSubCategoryService(
+      Number(subCategoryId),
+    );
+    return subCategoryData.send(res);
+  } catch (error) {
+    return next(error);
   }
 };
 
@@ -289,4 +310,6 @@ export {
   deleteProductsController,
   deleteCategoryController,
   deleteSubCategoryController,
+  getCategoryController,
+  getSubCategoryController,
 };

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import prisma_client from '../../config/prisma';
 import { BadRequestError } from '../../core/ApiError';
 import { SuccessResponse } from '../../core/ApiResponse';
-import { log } from 'console';
+import * as adminGetAllService from '../services/adminGet.service';
 
 const getAllUsersController = async (
   req: Request,
@@ -10,11 +10,7 @@ const getAllUsersController = async (
   next: NextFunction,
 ) => {
   try {
-    const users = await prisma_client.user.findMany();
-    if (!users) {
-      throw new BadRequestError('No users Found!');
-    }
-    const allUsers = new SuccessResponse('Users Fetched successfully', users);
+    const allUsers = await adminGetAllService.getAllUsersService();
     return allUsers.send(res);
   } catch (err) {
     return next(err);
@@ -27,15 +23,7 @@ const getAllVendorsController = async (
   next: NextFunction,
 ) => {
   try {
-    const vendors = await prisma_client.vendor.findMany();
-    if (!vendors) {
-      throw new BadRequestError('No vendors Found!');
-    }
-
-    const allVendors = new SuccessResponse(
-      'Vendors fetched Successfully',
-      vendors,
-    );
+    const allVendors = await adminGetAllService.getAllVendorsService();
     return allVendors.send(res);
   } catch (err) {
     return next(err);

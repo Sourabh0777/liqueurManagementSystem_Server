@@ -83,6 +83,25 @@ const deleteSubCategoryService = async (subCategoryId: number) => {
   return deletionResponse;
 };
 
+const getCategoryService = async (id: number) => {
+  const serviceResponse = await adminProductMethod.getCategoryMethod(id);
+  return serviceResponse;
+};
+
+const getSubCategoryService = async (id: number) => {
+  const serviceResponse = await adminProductMethod.getSubCategoryMethod(id);
+  return serviceResponse;
+};
+
+const getAllCategoriesService = async () => {
+  const serviceResponse = await adminProductMethod.getAllCategoriesMethod();
+  return serviceResponse;
+};
+
+const getAllSubCategoriesService = async () => {
+  const serviceResponse = await adminProductMethod.getAllSubCategoriesMethod();
+  return serviceResponse;
+};
 export {
   addCategoryService,
   addSubCategoryService,
@@ -95,4 +114,8 @@ export {
   getAllProductsService,
   deleteProductService,
   getProductService,
+  getCategoryService,
+  getSubCategoryService,
+  getAllCategoriesService,
+  getAllSubCategoriesService,
 };

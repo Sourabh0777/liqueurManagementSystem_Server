@@ -10,11 +10,13 @@ const deleteAdminController = async (
   next: NextFunction,
 ) => {
   try {
-    const adminId = req.body.id;
+    const adminId = req.params.id;
     if (!adminId) {
-      throw new BadRequestError('All input fields required');
+      throw new BadRequestError('No ID Provided');
     }
-    const deleteAdminResponse = await adminService.deleteAdminService(adminId);
+    const deleteAdminResponse = await adminService.deleteAdminService(
+      Number(adminId),
+    );
     return deleteAdminResponse.send(res);
   } catch (error) {
     console.log('Error deleting admin:', error);
@@ -28,11 +30,13 @@ const deleteUserController = async (
   next: NextFunction,
 ) => {
   try {
-    const userId = req.body.id;
+    const userId = req.params.id;
     if (!userId) {
       throw new BadRequestError('All input fields required');
     }
-    const deleteUserResponse = await adminService.deleteUserService(userId);
+    const deleteUserResponse = await adminService.deleteUserService(
+      Number(userId),
+    );
     return deleteUserResponse.send(res);
   } catch (error) {
     console.log('Error deleting admin:', error);
@@ -46,12 +50,12 @@ const deleteVendorController = async (
   next: NextFunction,
 ) => {
   try {
-    const vendorId = req.body.id;
+    const vendorId = req.params.id;
     if (!vendorId) {
       throw new BadRequestError('All input fields required');
     }
     const deleteVendorResponse = await adminService.deleteVendorService(
-      vendorId,
+      Number(vendorId),
     );
     return deleteVendorResponse.send(res);
   } catch (error) {

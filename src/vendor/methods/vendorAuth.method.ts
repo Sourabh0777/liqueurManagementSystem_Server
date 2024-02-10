@@ -30,7 +30,7 @@ const RegisterVendorMethod = async (
     data: { ...vendorRegistrationData, password: hashPassword },
   });
 
-  return new SuccessResponse('OTP sent successfully', {
+  return new SuccessResponse('Vendor Created successfully', {
     username: vendorRegistrationData.username,
   });
 };
