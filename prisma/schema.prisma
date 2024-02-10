@@ -182,43 +182,44 @@ model inventory {
 }
 
 model cartDetails {
-  id               Int         @id @default(autoincrement())
-  userDetailsID    Int         @unique
+  id               Int          @id @default(autoincrement())
+  userDetailsID    Int          @unique
   inventoryId      String
   quantity         Int[]
-  createdAt        DateTime    @default(now())
-  updatedAt        DateTime    @updatedAt()
-  enabled          Boolean     @default(true)
+  createdAt        DateTime     @default(now())
+  updatedAt        DateTime     @updatedAt()
+  enabled          Boolean      @default(true)
   // Foreign key
-  cartDetails      user        @relation(fields: [userDetailsID], references: [id])
+  userDetails      user         @relation(fields: [userDetailsID], references: [id])
   inventoryDetails inventory[]
+  orderDetail      orderDetail?
 }
 
-// model orderDetail{
-//   id                    Int @id @default(autoincrement())
-//   cartDetailsID         Int
-//   quantity              Int
-//   Status                orderStatus
-//   createdAt             DateTime      @default(now())
-//   updatedAt             DateTime      @updatedAt
+model orderDetail {
+  id            Int         @id @default(autoincrement())
+  cartDetailsID Int         @unique // Foreign key referencing cartDetails
+  quantity      Int[]
+  Status        orderStatus
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
 
-// Relation with cartDetails
-// cartDetails           CartDetails  @relation(fields: [cartDetailsID], references: [id])
+  // Define the relationship with cartDetails
+  cartDetails cartDetails        @relation(fields: [cartDetailsID], references: [id])
+  transaction transactionDetail?
 
-// transaction            transactionDetail
+  @@map("orders")
+}
 
-//   @@map("orders")
-// }
+model transactionDetail {
+  id          Int           @id @default(autoincrement())
+  orderID     Int           @unique
+  amount      Float
+  paymentMode String
+  status      paymentStatus
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-// model transactionDetail{
-//   id                    Int @id @default(autoincrement())
-//   orderID               Int
-//   amount                Float
-//   paymentMode           String
-//   status                paymentStatus
-//   createdAt             DateTime      @default(now())
-//   updatedAt             DateTime      @updatedAt
+  order orderDetail @relation(fields: [orderID], references: [id])
 
-//  order                 orderDetail   @relation(fields: [orderID], references: [id])
-//   @@map("transactions")
-// }
+  @@map("transactions")
+}

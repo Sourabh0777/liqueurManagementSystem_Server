@@ -21,3 +21,22 @@ export interface userDataInterface {
     phoneNumber: string;
   };
 }
+
+export interface CartDataInterface {
+  userDetailsID: number;
+  inventoryId: string;
+  quantity: number[];
+}
+
+export enum orderStatus {
+  PENDING = 'PENDING',
+  PLACED = 'PLACED',
+  PICKED = 'PICKED',
+  CANCELLED = 'CANCELLED',
+}
+
+export interface orderDataInterface {
+  cartDetailsID: number;
+  quantity: number[];
+  Status: orderStatus;
+}
