@@ -16,9 +16,4 @@ const deleteCartService = async (userId: number) => {
   return serviceResponse;
 };
 
-const updateCartService = async (cartData: CartDataInterface) => {
-  const serviceResponse = await cartMethods.updateCartMethod(cartData);
-  return serviceResponse;
-};
-
-export { addCartService, getCartService, deleteCartService, updateCartService };
+export { addCartService, getCartService, deleteCartService };

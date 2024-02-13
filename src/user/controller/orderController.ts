@@ -98,41 +98,4 @@ const cancelOrderController = async (
   }
 };
 
-const getAllOrderController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    //i will be having userid
-    const cartDetails = await prisma_client.cartDetails.findUnique({
-      where: {
-        userDetailsID: req.body.decodeToken.id,
-      },
-    });
-    if (!cartDetails) {
-      throw new NotFoundError('No such record exists');
-    }
-
-    const orderDetail = await prisma_client.orderDetail.findUnique({
-      where: {
-        cartDetailsID: cartDetails.id,
-      },
-    });
-    if (!orderDetail) {
-      throw new NotFoundError('No such order exists');
-    }
-
-    const getAllOrders = await orderService.getAllOrders(orderDetail.id);
-    return getAllOrders.send(res);
-  } catch (error) {
-    return next(error);
-  }
-};
-
-export {
-  createOrderController,
-  getOrderController,
-  cancelOrderController,
-  getAllOrderController,
-};
+export { createOrderController, getOrderController, cancelOrderController };

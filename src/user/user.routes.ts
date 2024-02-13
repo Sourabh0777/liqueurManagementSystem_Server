@@ -31,17 +31,16 @@ userRoutes.post(
   userAuthController.userLoginController,
 );
 userRoutes.use(verifyIsLoggedIn);
-// userRoutes.put('/updateData', userAuthController.updateUserDataController);
-// userRoutes.get('/getUser', userAuthController.getUserController);
-// userRoutes.delete('/deleteUser', userAuthController.deleteUserController);
+userRoutes.put('/updateData', userAuthController.updateUserDataController);
+userRoutes.get('/getUser', userAuthController.getUserController);
+userRoutes.delete('/deleteUser', userAuthController.deleteUserController);
 
-userRoutes.post('/cart/:inventoryId', cartController.addCartController);
+userRoutes.post('/cart/:vendorID', cartController.addCartController);
 userRoutes.get('/getCart', cartController.getCartController);
 userRoutes.delete('/removeCart', cartController.deleteCartController);
-userRoutes.put('/updateCart/:inventoryId', cartController.updateCartController);
 
 userRoutes.post('/order', orderController.createOrderController);
 userRoutes.get('/getOrder', orderController.getOrderController);
-userRoutes.get('/getAllOrder', orderController.getAllOrderController);
-userRoutes.put('/canelOrder', orderController.cancelOrderController);
+userRoutes.put('/cancelOrder', orderController.cancelOrderController);
+// userRoutes.get('/ViewOrderHistory', orderController.getAllOrderController);
 export default userRoutes;

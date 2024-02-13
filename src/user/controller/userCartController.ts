@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { BadRequestError } from '../../core/ApiError';
 import * as cartService from '../services/userCartService';
+import prisma_client from '../../config/prisma';
 
 const addCartController = async (
   req: Request,
@@ -9,12 +10,28 @@ const addCartController = async (
 ) => {
   try {
     const { quantity } = req.body;
-    const { inventoryId } = req.params;
     const userDetailsID = req.body.decodeToken.id;
+    const { productName, measureQuantity } = req.query;
+    const { vendorID } = req.params;
 
+    const productDetail = await prisma_client.productDetail.findFirst({
+      where: {
+        productName: String(productName),
+        measureQuantity: Number(measureQuantity),
+      },
+    });
+    const inventory = await prisma_client.inventory.findFirst({
+      where: {
+        vendorBusinessID: Number(vendorID),
+        productDetailsID: productDetail?.id,
+      },
+    });
+
+    const inventoryId = inventory?.id;
     if (!userDetailsID || !quantity || !inventoryId) {
       throw new BadRequestError('Require input all fields.');
     }
+
     const createCartData = await cartService.addCartService({
       quantity,
       inventoryId,
@@ -54,32 +71,4 @@ const deleteCartController = async (
   }
 };
 
-const updateCartController = async (
-  req: Request,
-  res: Response,
-  next: NextFunction,
-) => {
-  try {
-    const userDetailsID = req.body.decodeToken.id;
-    const { quantity } = req.body;
-    const { inventoryId } = req.params;
-
-    if (!userDetailsID || !quantity || !inventoryId) {
-      throw new BadRequestError('Require input all fields.');
-    }
-    const updateUserCart = await cartService.updateCartService({
-      quantity,
-      userDetailsID,
-      inventoryId,
-    });
-    return updateUserCart.send(res);
-  } catch (error) {
-    return next(error);
-  }
-};
-export {
-  addCartController,
-  getCartController,
-  deleteCartController,
-  updateCartController,
-};
+export { addCartController, getCartController, deleteCartController };

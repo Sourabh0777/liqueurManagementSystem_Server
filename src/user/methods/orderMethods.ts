@@ -39,15 +39,4 @@ const cancelOrder = async (orderId: number) => {
   return new SuccessResponse('Order Fetched', cancelOrder);
 };
 
-const getAllOrders = async (orderID: number) => {
-  const getAll = await prisma_client.orderDetail.findMany({
-    where: {
-      id: orderID,
-    },
-  });
-  if (!getAll) {
-    throw new NotFoundError('No Orders Found');
-  }
-  return new SuccessResponse('All Orders Fetched', getAll);
-};
-export { createOrder, getOrderMethod, cancelOrder, getAllOrders };
+export { createOrder, getOrderMethod, cancelOrder };

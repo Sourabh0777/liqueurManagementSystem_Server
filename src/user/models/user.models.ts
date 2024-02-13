@@ -24,8 +24,8 @@ export interface userDataInterface {
 
 export interface CartDataInterface {
   userDetailsID: number;
-  inventoryId: string;
-  quantity: number[];
+  inventoryId: number;
+  quantity: number;
 }
 
 export enum orderStatus {

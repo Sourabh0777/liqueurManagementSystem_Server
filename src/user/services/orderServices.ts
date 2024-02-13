@@ -1,11 +1,6 @@
 import * as ordertMethods from '../methods/orderMethods';
 import { orderDataInterface } from '../models/user.models';
 
-// const addCartService = async (cartData: CartDataInterface) => {
-//   const serviceResponse = await cartMethods.addCartMethod(cartData);
-//   return serviceResponse;
-// };
-
 const createOrder = async (orderData: orderDataInterface) => {
   const orderResponse = await ordertMethods.createOrder(orderData);
   return orderResponse;
@@ -21,9 +16,4 @@ const cancelOrder = async (orderID: number) => {
   return deletOrder;
 };
 
-const getAllOrders = async (orderID: number) => {
-  const getAll = await ordertMethods.getAllOrders(orderID);
-  return getAll;
-};
-
-export { createOrder, getOrder, cancelOrder, getAllOrders };
+export { createOrder, getOrder, cancelOrder };

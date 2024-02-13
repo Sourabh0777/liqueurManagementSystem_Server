@@ -184,7 +184,7 @@ model inventory {
 model cartDetails {
   id               Int          @id @default(autoincrement())
   userDetailsID    Int          @unique
-  inventoryId      String
+  inventoryId      Int[]
   quantity         Int[]
   createdAt        DateTime     @default(now())
   updatedAt        DateTime     @updatedAt()
