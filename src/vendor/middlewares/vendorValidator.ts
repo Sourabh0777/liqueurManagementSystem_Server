@@ -18,10 +18,6 @@ export const validateVendorLoginRequest = [
   check('password').notEmpty().withMessage('Password is required'),
 ];
 
-export const validateVendorDeleteRequest = [
-  check('id').notEmpty().withMessage('Vendor Id is required'),
-];
-
 export const isRequestValidated = (
   req: Request,
   res: Response,

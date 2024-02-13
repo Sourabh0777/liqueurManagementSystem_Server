@@ -5,4 +5,14 @@ const deleteAdminService = async (adminId: number) => {
   return deletionResponse;
 };
 
-export { deleteAdminService };
+const deleteUserService = async (userId: number) => {
+  const deletionResponse = await adminMethods.deleteUserMethod(userId);
+  return deletionResponse;
+};
+
+const deleteVendorService = async (vendorId: number) => {
+  const deletionResponse = await adminMethods.deleteVendorMethod(vendorId);
+  return deletionResponse;
+};
+
+export { deleteAdminService, deleteUserService, deleteVendorService };

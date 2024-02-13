@@ -3,14 +3,14 @@ import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import { SuccessResponse } from '../../core/ApiResponse';
 // import generateOtp from "../../user/middlewares/generateOtp";
 import {
-  vendorDetails,
+  vendorDataInterface,
   vendorRegistrationInterface,
 } from '../models/vendor.models';
 import bcrypt from 'bcrypt';
 
 const saltRounds = 5;
 
-const RegisterVendorMethod = async (
+const registerVendorMethod = async (
   vendorRegistrationData: vendorRegistrationInterface,
 ) => {
   const existingVendor = await prisma_client.vendor.findFirst({
@@ -30,12 +30,12 @@ const RegisterVendorMethod = async (
     data: { ...vendorRegistrationData, password: hashPassword },
   });
 
-  return new SuccessResponse('OTP sent successfully', {
+  return new SuccessResponse('Vendor Created successfully', {
     username: vendorRegistrationData.username,
   });
 };
 
-const LoginVendorMethod = async (
+const loginVendorMethod = async (
   vendorLoginData: vendorRegistrationInterface,
 ) => {
   const existingVendor = await prisma_client.vendor.findFirst({
@@ -58,11 +58,10 @@ const LoginVendorMethod = async (
   return new SuccessResponse('Login successful', { userId: existingVendor.id });
 };
 
-const fetchVendorMethod = async (VendorData: vendorDetails) => {
-  const { Id } = VendorData;
+const getVendorMethod = async (id: number) => {
   const getVendor = await prisma_client.vendor.findUnique({
     where: {
-      id: Id,
+      id: id,
     },
   });
   if (!getVendor) {
@@ -87,9 +86,45 @@ const deleteVendorMethod = async (vendorId: number) => {
   }
 };
 
+const updateVendorMethod = async (newVendorData: vendorDataInterface) => {
+  const { decodeToken, ...data } = newVendorData;
+  const updatedVendor = await prisma_client.vendor.update({
+    where: {
+      id: decodeToken.id,
+    },
+    data: data,
+  });
+
+  return new SuccessResponse('Data Changed Successfully', updatedVendor);
+};
+
+const updateVendorPasswordMethod = async (
+  username: string,
+  newPassword: string,
+) => {
+  try {
+    const updatedVendor = await prisma_client.vendor.update({
+      where: { username },
+      data: { password: newPassword },
+    });
+
+    if (!updatedVendor) {
+      throw new NotFoundError('Vendor not found');
+    }
+
+    return new SuccessResponse('Vendor password Changed!', {
+      message: 'Success',
+    });
+  } catch (error) {
+    console.error('Error during Updating:', error);
+    throw error;
+  }
+};
 export {
-  RegisterVendorMethod,
-  LoginVendorMethod,
-  fetchVendorMethod,
+  registerVendorMethod,
+  loginVendorMethod,
+  getVendorMethod,
   deleteVendorMethod,
+  updateVendorMethod,
+  updateVendorPasswordMethod,
 };

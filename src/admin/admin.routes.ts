@@ -4,6 +4,8 @@ import * as adminUpdateDetailsController from './controller/adminUpdateDetailsCo
 import * as adminDeleteController from './controller/adminDeleteController';
 import * as adminProductController from './controller/adminProductController';
 import * as userAuthController from '../user/controller/userAuthController';
+import * as vendorAuthController from '../vendor/controller/vendorAuthController';
+import * as adminGetController from '../admin/controller/adminGetController';
 import { verifyIsAdmin, verifyIsLoggedIn } from '../middleware/verifyAuthToken';
 import {
   isRequestValidated,
@@ -52,7 +54,7 @@ adminRoutes.put(
 );
 
 adminRoutes.delete(
-  '/deleteAdmin',
+  '/deleteAdmin/:id',
   validateDeleteAdminRequest,
   isRequestValidated,
   adminDeleteController.deleteAdminController,
@@ -70,6 +72,12 @@ adminRoutes.post(
   isRequestValidated,
   userAuthController.userVerifyOtpController,
 );
+
+adminRoutes.post(
+  '/registerVendor',
+  vendorAuthController.vendorRegisterController,
+);
+
 //Products Routes
 adminRoutes.post(
   '/addCategory',
@@ -104,6 +112,46 @@ adminRoutes.put(
 adminRoutes.delete(
   '/deleteProduct/:id',
   adminProductController.deleteProductsController,
+);
+adminRoutes.get('/getAllUsers', adminGetController.getAllUsersController);
+adminRoutes.get('/getAllVendors', adminGetController.getAllVendorsController);
+adminRoutes.delete(
+  '/deleteUser/:id',
+  adminDeleteController.deleteUserController,
+);
+adminRoutes.delete(
+  '/deleteVendor/:id',
+  adminDeleteController.deleteVendorController,
+);
+adminRoutes.post('/addProducts', adminProductController.addProductsController);
+adminRoutes.get('/getAllCategories', adminProductController.getAllCategories);
+adminRoutes.get(
+  '/getAllSubCategories',
+  adminProductController.getAllSubCategories,
+);
+adminRoutes.put(
+  '/updateCategory',
+  adminProductController.updateCategoryController,
+);
+adminRoutes.put(
+  '/updateSubCategory',
+  adminProductController.updateSubCategoryController,
+);
+adminRoutes.delete(
+  '/deleteCategory/:id',
+  adminProductController.deleteCategoryController,
+);
+adminRoutes.delete(
+  '/deleteSubCategory/:id',
+  adminProductController.deleteSubCategoryController,
+);
+adminRoutes.get(
+  '/getCategory/:id',
+  adminProductController.getCategoryController,
+);
+adminRoutes.get(
+  '/getSubCategory/:id',
+  adminProductController.getSubCategoryController,
 );
 //Export
 export default adminRoutes;

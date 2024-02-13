@@ -1,16 +1,17 @@
 import prisma_client from '../../config/prisma';
 import { AuthFailureError } from '../../core/ApiError';
-import * as Vendorauthmethods from '../methods/vendorAuth.method';
+import * as vendorAuthMethods from '../methods/vendorAuth.method';
+import { NotFoundError } from '../../core/ApiError';
 import {
   vendorRegistrationInterface,
-  vendorDetails,
+  vendorDataInterface,
 } from '../models/vendor.models';
 import bcrypt from 'bcrypt';
 
 const vendorRegisterService = async (
   vendorRegistrationData: vendorRegistrationInterface,
 ) => {
-  const registrationResponse = await Vendorauthmethods.RegisterVendorMethod(
+  const registrationResponse = await vendorAuthMethods.registerVendorMethod(
     vendorRegistrationData,
   );
 
@@ -29,23 +30,53 @@ const VendorLoginService = async (username: string, password: string) => {
   return vendor;
 };
 
-const getVendorService = async (getVendor: vendorDetails) => {
-  const getVendorResponse = await Vendorauthmethods.fetchVendorMethod(
-    getVendor,
-  );
+const getVendorService = async (vendorId: number) => {
+  const getVendorResponse = await vendorAuthMethods.getVendorMethod(vendorId);
   return getVendorResponse;
 };
 
-const deleteVendorService = async (adminId: number) => {
-  const deleteVendorResponse = await Vendorauthmethods.deleteVendorMethod(
-    adminId,
+const deleteVendorService = async (vendorId: number) => {
+  const deleteVendorResponse = await vendorAuthMethods.deleteVendorMethod(
+    vendorId,
   );
   return deleteVendorResponse;
 };
 
+const vendorDataUpdateService = async (newVendorData: vendorDataInterface) => {
+  const dataUpdateResponse = await vendorAuthMethods.updateVendorMethod(
+    newVendorData,
+  );
+  return dataUpdateResponse;
+};
+
+const updateVendorPasswordService = async (
+  vendorId: number,
+  username: string,
+  currentPassword: string,
+  newPassword: string,
+) => {
+  const vendor = await prisma_client.vendor.findUnique({
+    where: { username, id: vendorId },
+  });
+
+  if (!vendor || !(await bcrypt.compare(currentPassword, vendor.password))) {
+    throw new NotFoundError('Invalid Vendor or incorrect current password');
+  }
+
+  const hashedNewPassword = await bcrypt.hash(newPassword, 10);
+
+  const updatedAdmin = await vendorAuthMethods.updateVendorPasswordMethod(
+    username,
+    hashedNewPassword,
+  );
+
+  return updatedAdmin;
+};
 export {
   vendorRegisterService,
   VendorLoginService,
   getVendorService,
   deleteVendorService,
+  vendorDataUpdateService,
+  updateVendorPasswordService,
 };

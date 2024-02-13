@@ -36,12 +36,12 @@ export interface adminDetails {
   };
 }
 
-export interface categoryInterface {
+export interface createCategoryInterface {
   categoryName: string;
   categoryDetails: string;
 }
 
-export interface subCategoryInterface {
+export interface createSubCategoryInterface {
   categoryDetailsID: number;
   subCategoryName: string;
   subCategoryDetails: string;
@@ -66,4 +66,17 @@ export interface updateProductInterface {
     ABV?: number;
     enabled?: boolean;
   };
+}
+
+export interface categoryInterface {
+  id: number;
+  categoryName: string;
+  categoryDetails: string;
+}
+
+export interface subCategoryInterface {
+  id: number;
+  categoryDetailsID: number;
+  subCategoryName: string;
+  subCategoryDetails: string;
 }

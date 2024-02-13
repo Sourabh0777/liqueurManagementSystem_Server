@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import * as vendorAuthService from '../services/vendorAuth.service';
 import { AuthFailureError } from '../../core/ApiError';
 import bcrypt from 'bcrypt';
-import { generateToken } from '../middlewares/jwt.middleware';
+import { generateAuthToken } from '../middlewares/jwt.middleware';
 
 const vendorRegisterController = async (
   req: Request,
@@ -50,18 +50,14 @@ const vendorLoginController = async (
       res.status(400).json({ message: 'Invalid Credentials' });
       return;
     }
-
-    const token = generateToken({
-      username: vendor.username,
-      firstname: vendor.firstName,
-      lastname: vendor.lastName,
-    });
-
-    res
-      .cookie('jwtToken', token, { httpOnly: true })
-      .json({ message: 'Login Successful' });
+    const id = vendor.id;
+    return res
+      .cookie('user_access_token', generateAuthToken(id, username), {
+        httpOnly: true,
+      })
+      .json({ Success: 'Login Successful' });
   } catch (error) {
-    console.log('Error while loggin in', error);
+    console.log('Error while logging in', error);
     next(error);
   }
 };
@@ -72,8 +68,9 @@ const getVendorController = async (
   next: NextFunction,
 ) => {
   try {
+    const VendorId = req.params.id;
     const getVendorResponse = await vendorAuthService.getVendorService(
-      req.body,
+      Number(VendorId),
     );
     return getVendorResponse.send(res);
   } catch (error) {
@@ -87,9 +84,9 @@ const deleteVendorController = async (
   next: NextFunction,
 ) => {
   try {
-    const vendorId = req.body.id;
+    const vendorId = req.body.decodeToken.id;
     const deleteVendorResponse = await vendorAuthService.deleteVendorService(
-      vendorId,
+      Number(vendorId),
     );
 
     return deleteVendorResponse.send(res);
@@ -99,9 +96,48 @@ const deleteVendorController = async (
   }
 };
 
+const updateVendorDataController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const vendorDataUpdateResponse =
+      await vendorAuthService.vendorDataUpdateService(req.body);
+    return vendorDataUpdateResponse.send(res);
+  } catch (error) {
+    console.log('updateUserDataController error:', error);
+    next(error);
+  }
+};
+
+const updateVendorPasswordController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const vendorId = req.body.decodeToken.id;
+    const { username, currentPassword, newPassword } = req.body;
+    const updatePasswordResponse =
+      await vendorAuthService.updateVendorPasswordService(
+        vendorId,
+        username,
+        currentPassword,
+        newPassword,
+      );
+    return updatePasswordResponse.send(res);
+  } catch (error) {
+    console.log('Error updating password:', error);
+    next(error);
+  }
+};
+
 export {
   vendorRegisterController,
   vendorLoginController,
   getVendorController,
   deleteVendorController,
+  updateVendorDataController,
+  updateVendorPasswordController,
 };
