@@ -8,7 +8,7 @@ import {
   validateLoginRequest,
 } from './middlewares/userValidator';
 import * as cartController from './controller/userCartController';
-import * as orderController from './controller/orderController';
+import * as orderController from './controller/userOrderController';
 
 const userRoutes = express();
 

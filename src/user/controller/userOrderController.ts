@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { BadRequestError, NotFoundError } from '../../core/ApiError';
-import * as orderService from '../services/orderServices';
+import * as orderService from '../services/order.service';
 import prisma_client from '../../config/prisma';
 import { orderStatus } from '../models/user.models';
 
@@ -10,7 +10,6 @@ const createOrderController = async (
   next: NextFunction,
 ) => {
   try {
-    //i will be having userid
     console.log(req.body.decodeToken.id);
     const cartDetails = await prisma_client.cartDetails.findUnique({
       where: {
@@ -24,7 +23,7 @@ const createOrderController = async (
     const quantity = cartDetails?.quantity;
     const Status: orderStatus = orderStatus.PENDING;
 
-    const createOrder = await orderService.createOrder({
+    const createOrder = await orderService.createOrderService({
       cartDetailsID,
       quantity,
       Status,
@@ -41,7 +40,6 @@ const getOrderController = async (
   next: NextFunction,
 ) => {
   try {
-    //i will be having userid
     const cartDetails = await prisma_client.cartDetails.findUnique({
       where: {
         userDetailsID: req.body.decodeToken.id,
@@ -60,7 +58,7 @@ const getOrderController = async (
       throw new NotFoundError('No such order exists');
     }
 
-    const getOrder = await orderService.getOrder(orderDetail.id);
+    const getOrder = await orderService.getOrderService(orderDetail.id);
     return getOrder.send(res);
   } catch (error) {
     return next(error);
@@ -91,8 +89,8 @@ const cancelOrderController = async (
       throw new NotFoundError('No such order exists');
     }
 
-    const canelOrder = await orderService.cancelOrder(orderDetail.id);
-    return canelOrder.send(res);
+    const cancelOrder = await orderService.cancelOrderService(orderDetail.id);
+    return cancelOrder.send(res);
   } catch (error) {
     return next(error);
   }
