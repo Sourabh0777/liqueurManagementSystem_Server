@@ -71,4 +71,30 @@ const deleteCartController = async (
   }
 };
 
-export { addCartController, getCartController, deleteCartController };
+const deleteItemController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    //currently i have userid,inventoryid and quantity taking pid from body
+    const { inventoryId } = req.body;
+    if (!inventoryId) {
+      throw new BadRequestError('Require all input fields');
+    }
+    const removeItem = await cartService.deleteCartItemService(
+      inventoryId,
+      req.body.decodeToken.id,
+    );
+    return removeItem.send(res);
+  } catch (error) {
+    return next(error);
+  }
+};
+
+export {
+  addCartController,
+  getCartController,
+  deleteCartController,
+  deleteItemController,
+};

@@ -73,4 +73,34 @@ const deleteCartMethod = async (userId: number) => {
   return new SuccessResponse('Deleted User Cart', deleteUserCart);
 };
 
-export { addCartMethod, getCartMethod, deleteCartMethod };
+const deleteCartItemMethod = async (inventoryId: number, userId: number) => {
+  const cart = await prisma_client.cartDetails.findUnique({
+    where: {
+      userDetailsID: userId,
+    },
+  });
+  if (!cart) {
+    throw new NotFoundError('User Cart not Found');
+  }
+
+  const index = cart.inventoryId.indexOf(inventoryId);
+
+  if (cart.quantity[index] > 1) {
+    cart.quantity[index]--;
+  } else {
+    cart.quantity.splice(index, 1);
+    cart.inventoryId.splice(index, 1);
+  }
+  const updatedCart = await prisma_client.cartDetails.update({
+    where: {
+      userDetailsID: userId,
+    },
+    data: {
+      inventoryId: cart.inventoryId,
+      quantity: cart.quantity,
+    },
+  });
+
+  return new SuccessResponse('Cart Item Deleted Successfully', updatedCart);
+};
+export { addCartMethod, getCartMethod, deleteCartMethod, deleteCartItemMethod };

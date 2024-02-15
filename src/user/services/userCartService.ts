@@ -16,4 +16,16 @@ const deleteCartService = async (userId: number) => {
   return serviceResponse;
 };
 
-export { addCartService, getCartService, deleteCartService };
+const deleteCartItemService = async (productId: number, userId: number) => {
+  const serviceResponse = await cartMethods.deleteCartItemMethod(
+    productId,
+    userId,
+  );
+  return serviceResponse;
+};
+export {
+  addCartService,
+  getCartService,
+  deleteCartService,
+  deleteCartItemService,
+};

@@ -38,6 +38,7 @@ userRoutes.delete('/deleteUser', userAuthController.deleteUserController);
 userRoutes.post('/cart/:vendorID', cartController.addCartController);
 userRoutes.get('/getCart', cartController.getCartController);
 userRoutes.delete('/removeCart', cartController.deleteCartController);
+userRoutes.patch('/removeCartItem', cartController.deleteItemController);
 
 userRoutes.post('/order', orderController.createOrderController);
 userRoutes.get('/getOrder', orderController.getOrderController);
