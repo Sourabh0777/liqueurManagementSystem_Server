@@ -4,7 +4,7 @@ import { BadRequestError, NotFoundError } from '../../core/ApiError';
 import { orderStatus } from '../models/user.models';
 import { orderDataInterface } from '../models/user.models';
 
-const createOrder = async (orderData: orderDataInterface) => {
+const createOrderMethod = async (orderData: orderDataInterface) => {
   console.log('in create method functionality ', orderData);
   const order = await prisma_client.orderDetail.create({
     data: { ...orderData },
@@ -24,7 +24,7 @@ const getOrderMethod = async (orderId: number) => {
   return new SuccessResponse('Order Fetched', getOrder);
 };
 
-const cancelOrder = async (orderId: number) => {
+const cancelOrderMethod = async (orderId: number) => {
   const cancelOrder = await prisma_client.orderDetail.update({
     where: {
       id: orderId,
@@ -39,4 +39,4 @@ const cancelOrder = async (orderId: number) => {
   return new SuccessResponse('Order Fetched', cancelOrder);
 };
 
-export { createOrder, getOrderMethod, cancelOrder };
+export { createOrderMethod, getOrderMethod, cancelOrderMethod };

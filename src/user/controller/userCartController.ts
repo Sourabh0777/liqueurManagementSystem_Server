@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { BadRequestError } from '../../core/ApiError';
-import * as cartService from '../services/userCartService';
+import * as cartService from '../services/cart.service';
 import prisma_client from '../../config/prisma';
 
 const addCartController = async (
