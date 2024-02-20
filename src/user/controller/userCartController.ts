@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { BadRequestError } from '../../core/ApiError';
 import * as cartService from '../services/cart.service';
 import prisma_client from '../../config/prisma';
+import { log } from 'console';
 
 const addCartController = async (
   req: Request,
@@ -20,6 +21,7 @@ const addCartController = async (
         measureQuantity: Number(measureQuantity),
       },
     });
+    console.log(productDetail);
     const inventory = await prisma_client.inventory.findFirst({
       where: {
         vendorBusinessID: Number(vendorID),
@@ -32,10 +34,13 @@ const addCartController = async (
       throw new BadRequestError('Require input all fields.');
     }
 
+    const SingleItemprice = inventory.productPrice;
+    console.log(SingleItemprice);
     const createCartData = await cartService.addCartService({
       quantity,
       inventoryId,
       userDetailsID,
+      SingleItemprice,
     });
     return createCartData.send(res);
   } catch (error) {

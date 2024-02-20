@@ -42,6 +42,6 @@ userRoutes.patch('/removeCartItem', cartController.deleteItemController);
 
 userRoutes.post('/order', orderController.createOrderController);
 userRoutes.get('/getOrder', orderController.getOrderController);
-userRoutes.put('/cancelOrder', orderController.cancelOrderController);
-// userRoutes.get('/ViewOrderHistory', orderController.getAllOrderController);
+// userRoutes.put('/cancelOrder', orderController.cancelOrderController);
+userRoutes.get('/ViewOrderHistory', orderController.getAllUserOrdersController);
 export default userRoutes;

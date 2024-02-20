@@ -16,4 +16,14 @@ const cancelOrderService = async (orderID: number) => {
   return deleteOrder;
 };
 
-export { createOrderService, getOrderService, cancelOrderService };
+const getAllOrderService = async (userId: number) => {
+  const getAllOrders = await userOrderMethods.getAllOrdersMethod(userId);
+  return getAllOrders;
+};
+
+export {
+  createOrderService,
+  getOrderService,
+  cancelOrderService,
+  getAllOrderService,
+};

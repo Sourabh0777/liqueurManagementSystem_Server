@@ -6,9 +6,16 @@ import { orderDataInterface } from '../models/user.models';
 
 const createOrderMethod = async (orderData: orderDataInterface) => {
   console.log('in create method functionality ', orderData);
+  //const payRes= await razorpayCall
+  //if payRes-->success,orderStatus=Placed
+  //else orderStatus=Pending/Cancelled
+
   const order = await prisma_client.orderDetail.create({
     data: { ...orderData },
   });
+  //entry in transcation table
+  //updation in inventory table
+  //delete cart
   return new SuccessResponse('Order Created', order);
 };
 
@@ -39,4 +46,22 @@ const cancelOrderMethod = async (orderId: number) => {
   return new SuccessResponse('Order Fetched', cancelOrder);
 };
 
-export { createOrderMethod, getOrderMethod, cancelOrderMethod };
+const getAllOrdersMethod = async (userId: number) => {
+  const allOrders = await prisma_client.orderDetail.findMany({
+    where: {
+      userDetailsID: userId,
+    },
+    orderBy: [{ updatedAt: 'desc' }],
+  });
+  if (!allOrders) {
+    throw new NotFoundError('No Order History');
+  }
+  return new SuccessResponse('Orders Fetched', allOrders);
+};
+
+export {
+  createOrderMethod,
+  getOrderMethod,
+  cancelOrderMethod,
+  getAllOrdersMethod,
+};

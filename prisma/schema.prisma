@@ -27,30 +27,31 @@ enum paymentStatus {
 }
 
 model user {
-  id            Int          @id @default(autoincrement())
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  id            Int           @id @default(autoincrement())
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
   addressLine1  String?
   addressLine2  String?
   city          String?
   country       String?
-  countryCode   String?      @default("+91")
+  countryCode   String?       @default("+91")
   dateOfBirth   DateTime?
-  emailAddress  String?      @unique
-  enabled       Boolean      @default(true)
+  emailAddress  String?       @unique
+  enabled       Boolean       @default(true)
   firstName     String?
   gender        Gender?
-  isOTPVerified Boolean      @default(false)
+  isOTPVerified Boolean       @default(false)
   lastName      String?
   state         String?
   userImage     String?
   otp           Int?
   otpExpiry     DateTime?
-  userName      String?      @unique
+  userName      String?       @unique
   zipCode       String?
-  phoneNumber   String       @unique
+  phoneNumber   String        @unique
   //Foregin Key 
   cart          cartDetails?
+  order         orderDetail[]
 
   @@map("users")
 }
@@ -182,29 +183,32 @@ model inventory {
 }
 
 model cartDetails {
-  id               Int          @id @default(autoincrement())
-  userDetailsID    Int          @unique
+  id               Int         @id @default(autoincrement())
+  userDetailsID    Int         @unique
   inventoryId      Int[]
   quantity         Int[]
-  createdAt        DateTime     @default(now())
-  updatedAt        DateTime     @updatedAt()
-  enabled          Boolean      @default(true)
+  price            Int[]
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt()
+  enabled          Boolean     @default(true)
   // Foreign key
-  userDetails      user         @relation(fields: [userDetailsID], references: [id])
+  userDetails      user        @relation(fields: [userDetailsID], references: [id])
   inventoryDetails inventory[]
-  orderDetail      orderDetail?
+  // orderDetail      orderDetail?
 }
 
 model orderDetail {
   id            Int         @id @default(autoincrement())
-  cartDetailsID Int         @unique // Foreign key referencing cartDetails
+  userDetailsID Int // Foreign key referencing cartDetails
+  inventoryId   Int[]
   quantity      Int[]
   Status        orderStatus
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
 
   // Define the relationship with cartDetails
-  cartDetails cartDetails        @relation(fields: [cartDetailsID], references: [id])
+  // cartDetails cartDetails        @relation(fields: [cartDetailsID], references: [id])
+  userDetails user?              @relation(fields: [userDetailsID], references: [id])
   transaction transactionDetail?
 
   @@map("orders")

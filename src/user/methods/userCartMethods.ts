@@ -10,6 +10,7 @@ const addCartMethod = async (cartData: CartDataInterface) => {
       userDetailsID: cartData.userDetailsID,
     },
   });
+  const TotalPrice = cartData.SingleItemprice * cartData.quantity;
   //if no cart exists then create a cart
   if (!cart) {
     const cartCreation = await prisma_client.cartDetails.create({
@@ -17,6 +18,7 @@ const addCartMethod = async (cartData: CartDataInterface) => {
         userDetailsID: cartData.userDetailsID,
         quantity: [cartData.quantity],
         inventoryId: [cartData.inventoryId],
+        price: [TotalPrice],
       },
     });
 
@@ -28,14 +30,17 @@ const addCartMethod = async (cartData: CartDataInterface) => {
   if (index !== -1) {
     // If particular invID exists, append quantity
     cart.quantity[index] += cartData.quantity;
+    cart.price[index] += TotalPrice;
   } else {
     // If invID doesn't exist, add new item
 
     cart.inventoryId.push(cartData.inventoryId);
     cart.quantity.push(cartData.quantity);
+    cart.price.push(TotalPrice);
   }
 
   // Update the cart in the database
+  console.log('we are in user cart methods and price value is', cart.price);
   const updatedCart = await prisma_client.cartDetails.update({
     where: {
       userDetailsID: cartData.userDetailsID,
@@ -43,6 +48,7 @@ const addCartMethod = async (cartData: CartDataInterface) => {
     data: {
       inventoryId: cart.inventoryId,
       quantity: cart.quantity,
+      price: cart.price,
     },
   });
 
@@ -79,6 +85,16 @@ const deleteCartItemMethod = async (inventoryId: number, userId: number) => {
       userDetailsID: userId,
     },
   });
+
+  const inventory = await prisma_client.inventory.findUnique({
+    where: {
+      id: inventoryId,
+    },
+  });
+  if (!inventory) {
+    throw new NotFoundError('Inventory Item not Found');
+  }
+
   if (!cart) {
     throw new NotFoundError('User Cart not Found');
   }
@@ -87,9 +103,11 @@ const deleteCartItemMethod = async (inventoryId: number, userId: number) => {
 
   if (cart.quantity[index] > 1) {
     cart.quantity[index]--;
+    cart.price[index] -= inventory?.productPrice;
   } else {
     cart.quantity.splice(index, 1);
     cart.inventoryId.splice(index, 1);
+    cart.price.splice(index, 1);
   }
   const updatedCart = await prisma_client.cartDetails.update({
     where: {
@@ -98,6 +116,7 @@ const deleteCartItemMethod = async (inventoryId: number, userId: number) => {
     data: {
       inventoryId: cart.inventoryId,
       quantity: cart.quantity,
+      price: cart.price,
     },
   });
 
