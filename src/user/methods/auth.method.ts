@@ -154,7 +154,15 @@ const uploadImageMethod = async (userImage: any, userId: number) => {
   return new SuccessResponse('User Image Uploaded', updatedUser);
 };
 
-const deleteUserImageMethod = async (imagePath: string, userId: number) => {
+const deleteUserImageMethod = async (userId: number) => {
+  var imagePath = '';
+  const imgPath = await prisma_client.user.findUnique({
+    where: { id: userId },
+    select: { userImage: true },
+  });
+  if (imgPath?.userImage) {
+    imagePath = imgPath.userImage;
+  }
   const decodedImagePath = decodeURIComponent(imagePath);
 
   const uploadDirectory = path.resolve(

@@ -164,9 +164,7 @@ const userDeleteImageController = async (
   next: NextFunction,
 ) => {
   try {
-    const imagePath = req.params.imagePath;
     const imageDeleteResponse = await userAuthService.deleteImageService(
-      imagePath,
       req.body.decodeToken.id,
     );
     return imageDeleteResponse.send(res);

@@ -61,6 +61,15 @@ adminRoutes.delete(
 );
 
 adminRoutes.post(
+  '/uploadAdminImage',
+  adminAuthController.uploadAdminImageController,
+);
+adminRoutes.put(
+  '/deleteAdminImage',
+  adminAuthController.deleteAdminImageController,
+);
+
+adminRoutes.post(
   '/registerUser',
   validateUserRegisterRequest,
   isRequestValidated,

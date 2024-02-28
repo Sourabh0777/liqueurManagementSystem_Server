@@ -95,9 +95,7 @@ const deleteAdminImageController = async (
   next: NextFunction,
 ) => {
   try {
-    const imagePath = req.params.imagePath;
     const imageDeleteResponse = await adminAuthService.deleteAdminImageService(
-      imagePath,
       req.body.decodeToken.id,
     );
     return imageDeleteResponse.send(res);

@@ -32,9 +32,8 @@ const uploadAdminImageService = async (adminImage: any, adminId: number) => {
   return uploadImageResponse;
 };
 
-const deleteAdminImageService = async (imagePath: string, adminId: number) => {
+const deleteAdminImageService = async (adminId: number) => {
   const deleteImageResponse = await adminAuthMethods.deleteAdminImageMethod(
-    imagePath,
     adminId,
   );
   return deleteImageResponse;

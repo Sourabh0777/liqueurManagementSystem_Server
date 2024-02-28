@@ -36,7 +36,7 @@ userRoutes.get('/getUser', userAuthController.getUserController);
 userRoutes.delete('/deleteUser', userAuthController.deleteUserController);
 userRoutes.post('/uploadImage', userAuthController.userImageUploadController);
 userRoutes.put(
-  '/deleteUserImage/:imagePath',
+  '/deleteUserImage',
   userAuthController.userDeleteImageController,
 );
 

@@ -49,11 +49,8 @@ const uploadImageService = async (userImage: any, userId: number) => {
   return uploadImageResponse;
 };
 
-const deleteImageService = async (imagePath: string, userId: number) => {
-  const deleteImageResponse = await authMethods.deleteUserImageMethod(
-    imagePath,
-    userId,
-  );
+const deleteImageService = async (userId: number) => {
+  const deleteImageResponse = await authMethods.deleteUserImageMethod(userId);
   return deleteImageResponse;
 };
 export {

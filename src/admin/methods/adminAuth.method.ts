@@ -66,7 +66,18 @@ const uploadAdminImageMethod = async (adminImage: any, adminId: number) => {
   return new SuccessResponse('Admin Image Uploaded', updatedAdmin);
 };
 
-const deleteAdminImageMethod = async (imagePath: string, adminId: number) => {
+const deleteAdminImageMethod = async (adminId: number) => {
+  var imagePath = '';
+  const imgPath = await prisma_client.admin.findFirst({
+    where: { id: adminId },
+    select: {
+      userImage: true,
+    },
+  });
+
+  if (imgPath?.userImage) {
+    imagePath = imgPath?.userImage;
+  }
   const decodedImagePath = decodeURIComponent(imagePath);
 
   const uploadDirectory = path.resolve(
