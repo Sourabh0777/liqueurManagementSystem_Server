@@ -2,6 +2,14 @@ import { Request, Response, NextFunction } from 'express';
 import * as userAuthService from '../services/auth.service';
 import { generateAuthToken } from '../middlewares/generateUserJWT';
 import { cookieOptions } from '../../utils/cookieOptions';
+import {
+  BadRequestError,
+  InternalError,
+  NotFoundError,
+} from '../../core/ApiError';
+import imageValidate from '../middlewares/image.validate';
+import path from 'path';
+import fs from 'fs';
 
 const userRegisterController = async (
   req: Request,
@@ -129,6 +137,44 @@ const CurrentlyLoggedInUserController = async (
   }
 };
 
+const userImageUploadController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.files) {
+      return new NotFoundError('Image file not uploaded');
+    }
+    imageValidate(req.files.image);
+
+    const imageUploadResponse = await userAuthService.uploadImageService(
+      req.files.image,
+      req.body.decodeToken.id,
+    );
+    return imageUploadResponse.send(res);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const userDeleteImageController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const imagePath = req.params.imagePath;
+    const imageDeleteResponse = await userAuthService.deleteImageService(
+      imagePath,
+      req.body.decodeToken.id,
+    );
+    return imageDeleteResponse.send(res);
+  } catch (error) {
+    next(error);
+  }
+};
+
 export {
   userRegisterController,
   userVerifyOtpController,
@@ -137,4 +183,6 @@ export {
   getUserController,
   deleteUserController,
   CurrentlyLoggedInUserController,
+  userImageUploadController,
+  userDeleteImageController,
 };
