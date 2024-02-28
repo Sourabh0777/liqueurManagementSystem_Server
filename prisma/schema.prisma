@@ -100,7 +100,7 @@ model vendor {
   dateOfBirth       DateTime?
   username          String              @unique
   password          String
-  userImage         String?
+  userImage       String?
   roleType          String?
   accessID          Int?                @unique
   createdAt         DateTime            @default(now())

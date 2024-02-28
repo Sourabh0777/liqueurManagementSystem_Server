@@ -2,6 +2,7 @@
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { PORT, environment } from './secrets';
 import rootRouter from './root.routes';
+import fileupload from 'express-fileupload'; 
 import {
   ApiError,
   ErrorType,
@@ -9,13 +10,13 @@ import {
   NotFoundError,
 } from './core/ApiError';
 import cookieParser from 'cookie-parser';
-
+// app.use()
 console.log(new Date());
 
 const app: Express = express();
 app.use(express.json());
 app.use(cookieParser());
-
+app.use(fileupload());
 app.use('/api', rootRouter);
 // app.use((req: Request, res: Response, next) => next(new NotFoundError()));
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {

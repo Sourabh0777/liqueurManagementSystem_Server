@@ -120,6 +120,25 @@ const updateVendorPasswordMethod = async (
     throw error;
   }
 };
+
+const uploadVendorImageMethod = async (vendorId:number, imagepath:any) => {
+  try {
+    const updatedVendor = await prisma_client.vendor.update({
+      where: {id: vendorId},
+      data: { userImage: imagepath}
+    });
+
+    if (!updatedVendor) {
+      throw new NotFoundError('Vendor not found');
+    }
+    return new SuccessResponse('File uploaded successfully', updatedVendor);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    throw error;
+  }
+};
+
+
 export {
   registerVendorMethod,
   loginVendorMethod,
@@ -127,4 +146,5 @@ export {
   deleteVendorMethod,
   updateVendorMethod,
   updateVendorPasswordMethod,
+  uploadVendorImageMethod
 };

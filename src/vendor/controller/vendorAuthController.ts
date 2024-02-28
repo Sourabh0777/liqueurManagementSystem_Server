@@ -3,6 +3,7 @@ import * as vendorAuthService from '../services/vendorAuth.service';
 import { AuthFailureError } from '../../core/ApiError';
 import bcrypt from 'bcrypt';
 import { generateAuthToken } from '../middlewares/jwt.middleware';
+import { UploadedFile } from 'express-fileupload';
 
 const vendorRegisterController = async (
   req: Request,
@@ -133,6 +134,31 @@ const updateVendorPasswordController = async (
   }
 };
 
+const vendorUploadController = async (
+  req:Request, 
+  res:Response, 
+  next:NextFunction) => {
+  try {
+    if (!req.files) {
+      return res.status(400).send("No files were uploaded");
+    }
+
+    // const path=require("path");
+    // let imagesTable=[];
+    const uploadedFile= req.files.userImage;
+    // if(Array.isArray(imagePath)){
+    //   imagesTable=vendorImage
+    // }else{
+    //   imagesTable.push(req.files.vendorImage);
+    // }
+    const uploadResponse = await vendorAuthService.vendoruploadService(req.body.decodeToken.id, uploadedFile);
+    return res.status(200).json(uploadResponse);
+  } catch (error) {
+    console.error('Error uploading file:', error);
+    next(error);
+  }
+};
+
 export {
   vendorRegisterController,
   vendorLoginController,
@@ -140,4 +166,5 @@ export {
   deleteVendorController,
   updateVendorDataController,
   updateVendorPasswordController,
+  vendorUploadController,
 };

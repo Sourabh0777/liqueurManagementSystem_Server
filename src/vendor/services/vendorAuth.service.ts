@@ -72,6 +72,14 @@ const updateVendorPasswordService = async (
 
   return updatedAdmin;
 };
+
+const vendoruploadService = async (vendorId:number,imagepath:any) => {
+    
+    const dataUpdateResponse = await vendorAuthMethods.uploadVendorImageMethod(vendorId,imagepath);
+    
+    return dataUpdateResponse;
+};
+
 export {
   vendorRegisterService,
   VendorLoginService,
@@ -79,4 +87,5 @@ export {
   deleteVendorService,
   vendorDataUpdateService,
   updateVendorPasswordService,
+  vendoruploadService
 };

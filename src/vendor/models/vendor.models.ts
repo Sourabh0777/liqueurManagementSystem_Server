@@ -18,6 +18,7 @@ export interface vendorDataInterface {
   city: string;
   state: string;
   country: string;
+  vendorImage: string;
   countryCode: string;
   zipcode: string;
   decodeToken: {
@@ -40,3 +41,12 @@ export interface inventoryDataInterface {
   totalQuantity: number;
   availableQuantity: number;
 }
+
+export interface filemodel{
+  originalName: string;
+  imageName: string;
+  imagePath: string;
+  imageType: string;
+  imageSize: number;
+}
+

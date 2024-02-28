@@ -60,4 +60,7 @@ vendorRoutes.put(
   '/updateInventoryItem/:id',
   vendorInventoryController.updateInventoryItemController,
 );
+
+vendorRoutes.post("/upload",vendorAuthController.vendorUploadController);
+
 export default vendorRoutes;
