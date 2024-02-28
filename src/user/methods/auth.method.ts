@@ -4,8 +4,15 @@ import {
   userRegistrationInterface,
   userDataInterface,
 } from '../models/user.models';
-import { BadRequestError, NotFoundError } from '../../core/ApiError';
+import {
+  BadRequestError,
+  NotFoundError,
+  InternalError,
+} from '../../core/ApiError';
 import generateOtp from '../middlewares/generateOtp';
+import path from 'path';
+import fs from 'fs/promises';
+import { v4 as uuidv4 } from 'uuid';
 
 const RegisterUserMethod = async (
   userRegistrationData: userRegistrationInterface,
@@ -114,6 +121,66 @@ const deleteUserMethod = async (userData: userDataInterface) => {
   return new SuccessResponse('User Deleted Successfully', deleteUser);
 };
 
+const uploadImageMethod = async (userImage: any, userId: number) => {
+  const uploadDirectory = path.resolve(
+    __dirname,
+    '../../../public/images/user',
+  );
+
+  const user = await prisma_client.user.findUnique({
+    where: {
+      id: userId,
+    },
+  });
+
+  // Check if user exists
+  if (!user) {
+    throw new NotFoundError("User doesn't Exsist");
+  }
+
+  const fileName = uuidv4() + path.extname(userImage.name);
+  const uploadPath = path.join(uploadDirectory, fileName);
+
+  // Assign the fileName to the userImage property if user exists
+  const updatedUser = await prisma_client.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      userImage: fileName,
+    },
+  });
+  userImage.mv(uploadPath);
+  return new SuccessResponse('User Image Uploaded', updatedUser);
+};
+
+const deleteUserImageMethod = async (imagePath: string, userId: number) => {
+  const decodedImagePath = decodeURIComponent(imagePath);
+
+  const uploadDirectory = path.resolve(
+    __dirname,
+    '../../../public/images/user',
+  );
+  const finalPath = path.join(uploadDirectory, decodedImagePath);
+
+  try {
+    await fs.unlink(finalPath);
+  } catch (error) {
+    throw new NotFoundError("Image doesn't exist");
+  }
+
+  const deleteImage = await prisma_client.user.update({
+    where: {
+      id: userId,
+    },
+    data: {
+      userImage: null,
+    },
+  });
+
+  return new SuccessResponse('User Image Removed Successfully', deleteImage);
+};
+
 export {
   RegisterUserMethod,
   VerifyOtpMethod,
@@ -121,4 +188,6 @@ export {
   UpdateUserMethod,
   getUserMethod,
   deleteUserMethod,
+  uploadImageMethod,
+  deleteUserImageMethod,
 };

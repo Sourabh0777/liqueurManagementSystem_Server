@@ -34,6 +34,11 @@ userRoutes.use(verifyIsLoggedIn);
 userRoutes.put('/updateData', userAuthController.updateUserDataController);
 userRoutes.get('/getUser', userAuthController.getUserController);
 userRoutes.delete('/deleteUser', userAuthController.deleteUserController);
+userRoutes.post('/uploadImage', userAuthController.userImageUploadController);
+userRoutes.put(
+  '/deleteUserImage/:imagePath',
+  userAuthController.userDeleteImageController,
+);
 
 userRoutes.post('/cart/:vendorID', cartController.addCartController);
 userRoutes.get('/getCart', cartController.getCartController);

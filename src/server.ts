@@ -1,4 +1,3 @@
-
 import express, { Express, NextFunction, Request, Response } from 'express';
 import { PORT, environment } from './secrets';
 import rootRouter from './root.routes';
@@ -9,12 +8,14 @@ import {
   NotFoundError,
 } from './core/ApiError';
 import cookieParser from 'cookie-parser';
+import fileUpload from 'express-fileupload';
 
 console.log(new Date());
 
 const app: Express = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(fileUpload());
 
 app.use('/api', rootRouter);
 // app.use((req: Request, res: Response, next) => next(new NotFoundError()));
