@@ -42,3 +42,15 @@ export interface orderDataInterface {
   userDetailsID: number;
   Status: orderStatus;
 }
+
+export enum paymentStatus {
+  PENDING = 'PENDING',
+  SUCCESSFUL = 'SUCCESSFUL',
+}
+
+export interface createTransactionInterface {
+  orderID: number;
+  amount: number;
+  paymentMode: string;
+  status: paymentStatus;
+}

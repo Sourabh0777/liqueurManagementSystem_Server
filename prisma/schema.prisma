@@ -138,7 +138,7 @@ model subCategoryDetail {
   enabled              Boolean         @default(true)
   products             productDetail[]
   // Define the relationship with categoryDetail
-  categoryDetail       categoryDetail  @relation(fields: [categoryDetailsID], references: [id])
+  categoryDetail       categoryDetail? @relation(fields: [categoryDetailsID], references: [id])
   vendor               vendor?         @relation(fields: [vendorId], references: [id])
   vendorId             Int?
 
@@ -160,26 +160,26 @@ model productDetail {
   //one-to-many relationship with inventory
   inventory         inventory[]
   // Define the relationship with categoryDetail
-  subCategoryDetail subCategoryDetail @relation(fields: [subCategoryDetailsID], references: [id])
+  subCategoryDetail subCategoryDetail? @relation(fields: [subCategoryDetailsID], references: [id])
 
   @@map("products")
 }
 
 model inventory {
-  id                Int           @id @default(autoincrement())
+  id                Int            @id @default(autoincrement())
   vendorBusinessID  Int
   productDetailsID  Int
   productPrice      Float
   totalQuantity     Int
   availableQuantity Int
-  createdAt         DateTime      @default(now())
-  updatedAt         DateTime      @updatedAt()
-  enabled           Boolean       @default(true)
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt()
+  enabled           Boolean        @default(true)
   cartDetailsId     Int? // why?
   // Foreign key
-  vendor            vendor        @relation(fields: [vendorBusinessID], references: [id])
-  productDetails    productDetail @relation(fields: [productDetailsID], references: [id])
-  cartDetails       cartDetails?  @relation(fields: [cartDetailsId], references: [id])
+  vendor            vendor?        @relation(fields: [vendorBusinessID], references: [id])
+  productDetails    productDetail? @relation(fields: [productDetailsID], references: [id])
+  cartDetails       cartDetails?   @relation(fields: [cartDetailsId], references: [id])
 }
 
 model cartDetails {
@@ -192,7 +192,7 @@ model cartDetails {
   updatedAt        DateTime    @updatedAt()
   enabled          Boolean     @default(true)
   // Foreign key
-  userDetails      user        @relation(fields: [userDetailsID], references: [id])
+  userDetails      user?       @relation(fields: [userDetailsID], references: [id])
   inventoryDetails inventory[]
   // orderDetail      orderDetail?
 }
@@ -215,15 +215,15 @@ model orderDetail {
 }
 
 model transactionDetail {
-  id          Int           @id @default(autoincrement())
-  orderID     Int           @unique
+  id          Int            @id @default(autoincrement())
+  orderID     Int            @unique
   amount      Float
-  paymentMode String
-  status      paymentStatus
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
+  paymentMode String?
+  status      paymentStatus?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 
-  order orderDetail @relation(fields: [orderID], references: [id])
+  order orderDetail? @relation(fields: [orderID], references: [id])
 
   @@map("transactions")
 }

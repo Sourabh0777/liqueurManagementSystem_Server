@@ -46,7 +46,7 @@ const deleteInventoryItemController = async (
   }
 };
 
-const getVendorInventoryService = async (
+const getVendorInventoryController = async (
   req: Request,
   res: Response,
   next: NextFunction,
@@ -90,6 +90,6 @@ const updateInventoryItemController = async (
 export {
   createInventoryItemController,
   deleteInventoryItemController,
-  getVendorInventoryService,
+  getVendorInventoryController,
   updateInventoryItemController,
 };

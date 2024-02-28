@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import * as vendorAuthController from './controller/vendorAuthController';
 import * as vendorInventoryController from './controller/vendorInventoryController';
+import * as vendorOrderController from './controller/vendorConfirmPaymentController';
 import {
   isRequestValidated,
   // validateVendorDeleteRequest,
@@ -54,10 +55,15 @@ vendorRoutes.delete(
 
 vendorRoutes.get(
   '/getVendorInventory',
-  vendorInventoryController.getVendorInventoryService,
+  vendorInventoryController.getVendorInventoryController,
 );
 vendorRoutes.put(
   '/updateInventoryItem/:id',
   vendorInventoryController.updateInventoryItemController,
+);
+
+vendorRoutes.put(
+  '/confirmUserPayment/:id',
+  vendorOrderController.confirmPaymentController,
 );
 export default vendorRoutes;

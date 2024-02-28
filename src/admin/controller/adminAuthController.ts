@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response } from 'express';
 import * as adminAuthService from '../services/adminAuth.service';
-import { AuthFailureError } from '../../core/ApiError';
+import { AuthFailureError, NotFoundError } from '../../core/ApiError';
 import { generateAuthToken } from '../middleware/jwt.middleware';
 import bcrypt from 'bcrypt';
+import imageValidate from '../middleware/imageValidator';
 
 const adminRegisterController = async (
   req: Request,
@@ -65,4 +66,48 @@ const adminLoginController = async (
     next(error);
   }
 };
-export { adminRegisterController, adminLoginController };
+
+const uploadAdminImageController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    if (!req.files) {
+      return new NotFoundError('Image file not uploaded');
+    }
+    imageValidate(req.files.image);
+
+    console.log(req.files.image);
+    const imageUploadResponse = await adminAuthService.uploadAdminImageService(
+      req.files.image,
+      req.body.decodeToken.id,
+    );
+    return imageUploadResponse.send(res);
+  } catch (error) {
+    next(error);
+  }
+};
+
+const deleteAdminImageController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  try {
+    const imagePath = req.params.imagePath;
+    const imageDeleteResponse = await adminAuthService.deleteAdminImageService(
+      imagePath,
+      req.body.decodeToken.id,
+    );
+    return imageDeleteResponse.send(res);
+  } catch (error) {
+    next(error);
+  }
+};
+export {
+  adminRegisterController,
+  adminLoginController,
+  uploadAdminImageController,
+  deleteAdminImageController,
+};

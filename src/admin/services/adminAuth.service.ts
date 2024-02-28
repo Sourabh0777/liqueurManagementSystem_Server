@@ -24,4 +24,25 @@ const adminLoginService = async (username: string, password: string) => {
   return admin;
 };
 
-export { adminRegisterService, adminLoginService };
+const uploadAdminImageService = async (adminImage: any, adminId: number) => {
+  const uploadImageResponse = await adminAuthMethods.uploadAdminImageMethod(
+    adminImage,
+    adminId,
+  );
+  return uploadImageResponse;
+};
+
+const deleteAdminImageService = async (imagePath: string, adminId: number) => {
+  const deleteImageResponse = await adminAuthMethods.deleteAdminImageMethod(
+    imagePath,
+    adminId,
+  );
+  return deleteImageResponse;
+};
+
+export {
+  adminRegisterService,
+  adminLoginService,
+  uploadAdminImageService,
+  deleteAdminImageService,
+};

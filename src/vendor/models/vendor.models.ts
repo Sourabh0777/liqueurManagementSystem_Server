@@ -40,3 +40,12 @@ export interface inventoryDataInterface {
   totalQuantity: number;
   availableQuantity: number;
 }
+
+export enum paymentStatus {
+  PENDING = 'PENDING',
+  SUCCESSFUL = 'SUCCESSFUL',
+}
+
+export interface vendorConfirmPaymentInterface {
+  status: paymentStatus;
+}
