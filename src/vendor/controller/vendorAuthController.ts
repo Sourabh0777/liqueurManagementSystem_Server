@@ -3,7 +3,8 @@ import * as vendorAuthService from '../services/vendorAuth.service';
 import { AuthFailureError } from '../../core/ApiError';
 import bcrypt from 'bcrypt';
 import { generateAuthToken } from '../middlewares/jwt.middleware';
-import { UploadedFile } from 'express-fileupload';
+// import { UploadedFile } from 'express-fileupload';
+import * as validation from '../middlewares/validateImage';
 
 const vendorRegisterController = async (
   req: Request,
@@ -142,7 +143,7 @@ const vendorUploadController = async (
     if (!req.files) {
       return res.status(400).send("No files were uploaded");
     }
-
+    const validateresult=imageValidate(req.files.userImage);
     // const path=require("path");
     // let imagesTable=[];
     const uploadedFile= req.files.userImage;
